@@ -1,0 +1,17 @@
+{
+  "short_name": "LingoFlash",
+  "name": "LingoFlash - Flashcard Vocabulary Trainer",
+  "icons": [
+    {
+      "src": "/images/apple.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "display": "standalone",
+  "orientation": "portrait"
+}

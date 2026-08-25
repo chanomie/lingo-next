@@ -1,0 +1,67 @@
+[
+  {
+    "word": "salut",
+    "translation": "hello"
+  },
+  {
+    "word": "nom",
+    "translation": "name"
+  },
+  {
+    "word": "madame",
+    "translation": "ma'am"
+  },
+  {
+    "word": "tu",
+    "translation": "you (informal/subject)"
+  },
+  {
+    "word": "monsieur",
+    "translation": "sir"
+  },
+  {
+    "word": "bonsoir",
+    "translation": "good evening"
+  },
+  {
+    "word": "de même",
+    "translation": "likewise"
+  },
+  {
+    "word": "enchantée",
+    "translation": "Nice to meet you"
+  },
+  {
+    "word": "vous",
+    "translation": "you (formal/plural)"
+  },
+  {
+    "word": "comment",
+    "translation": "how"
+  },
+  {
+    "word": "toi",
+    "translation": "you (disjunctive)"
+  },
+  {
+    "word": "prénom",
+    "translation": "first name"
+  },
+  {
+    "word": "ravie",
+    "translation": "delighted"
+  },
+  {
+    "word": "bonjour",
+    "translation": "hello"
+  },
+  {
+    "word": "mademoiselle",
+    "translation": "miss"
+  },
+  {
+    "word": "chien",
+    "translation": "dog",
+    "picture": "/images/dog.png"
+  }
+]
