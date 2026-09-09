@@ -71,12 +71,26 @@ body {
   border-radius: 16px;
 }
 
+.title-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .title-container h1 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   background: linear-gradient(to right, #c084fc, #e879f9);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+
+.mode-indicator {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #c084fc;
+  letter-spacing: 0.03em;
 }
 
 .score-badge {

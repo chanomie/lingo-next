@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 function App() {
   const [vocab, setVocab] = useState([]);
@@ -10,6 +10,8 @@ function App() {
   const [totalAnswered, setTotalAnswered] = useState(0);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [questionCount, setQuestionCount] = useState(0);
+  const questionCountRef = useRef(0);
 
   // Load vocab configuration
   useEffect(() => {
@@ -27,8 +29,12 @@ function App() {
   }, []);
 
   // Generate a new flashcard question
-  const nextQuestion = useCallback(() => {
+  const nextQuestion = useCallback((overrideCount) => {
     if (vocab.length < 4) return;
+
+    const count = typeof overrideCount === 'number' ? overrideCount : questionCountRef.current;
+    // 10 times French prompt -> 10 times English prompt -> repeat
+    const isFrenchPrompt = Math.floor(count / 10) % 2 === 0;
 
     // Pick a random word from vocab as the correct answer
     const correctIdx = Math.floor(Math.random() * vocab.length);
@@ -40,26 +46,32 @@ function App() {
     while (incorrectItems.length < 3) {
       const randIdx = Math.floor(Math.random() * pool.length);
       const item = pool[randIdx];
-      if (!incorrectItems.some((x) => x.word === item.word)) {
+      const isDuplicate = isFrenchPrompt
+        ? item.translation.toLowerCase().trim() === correctItem.translation.toLowerCase().trim() ||
+          incorrectItems.some((x) => x.translation.toLowerCase().trim() === item.translation.toLowerCase().trim())
+        : item.word.toLowerCase().trim() === correctItem.word.toLowerCase().trim() ||
+          incorrectItems.some((x) => x.word.toLowerCase().trim() === item.word.toLowerCase().trim());
+
+      if (!isDuplicate) {
         incorrectItems.push(item);
       }
     }
 
     // Determine correct representation (text translation or picture if exists)
-    // 50% chance to show picture if it exists, otherwise text translation
-    const usePicture = !!correctItem.picture && Math.random() < 0.5;
+    // 50% chance to show picture if it exists, only when prompt is in French
+    const usePicture = isFrenchPrompt && !!correctItem.picture && Math.random() < 0.5;
 
     // Map correct and incorrect items into options
     const choices = [
       {
         id: 'correct',
-        text: usePicture ? null : correctItem.translation,
+        text: isFrenchPrompt ? (usePicture ? null : correctItem.translation) : correctItem.word,
         picture: usePicture ? correctItem.picture : null,
         isCorrect: true,
       },
       ...incorrectItems.map((item, idx) => ({
         id: `incorrect-${idx}`,
-        text: item.translation,
+        text: isFrenchPrompt ? item.translation : item.word,
         picture: null,
         isCorrect: false,
       })),
@@ -78,7 +90,7 @@ function App() {
   // Trigger first question when vocab loads
   useEffect(() => {
     if (vocab.length > 0) {
-      nextQuestion();
+      nextQuestion(0);
     }
   }, [vocab, nextQuestion]);
 
@@ -96,9 +108,13 @@ function App() {
       }
       setTotalAnswered((t) => t + 1);
 
+      const nextCount = questionCountRef.current + 1;
+      questionCountRef.current = nextCount;
+      setQuestionCount(nextCount);
+
       // Wait 3 seconds and go to next question
       setTimeout(() => {
-        nextQuestion();
+        nextQuestion(nextCount);
       }, 3000);
     } else {
       // Mark as incorrect
@@ -117,10 +133,12 @@ function App() {
   };
 
   const handleRestart = () => {
+    questionCountRef.current = 0;
+    setQuestionCount(0);
     setScore(0);
     setTotalAnswered(0);
     setIsSummaryOpen(false);
-    nextQuestion();
+    nextQuestion(0);
   };
 
   const handleForceReload = async () => {
@@ -145,6 +163,8 @@ function App() {
   };
 
   const successRate = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
+  const isFrenchPrompt = Math.floor(questionCount / 10) % 2 === 0;
+  const roundProgress = (questionCount % 10) + 1;
 
   if (vocab.length === 0 || !currentQuestion) {
     return (
@@ -169,6 +189,9 @@ function App() {
       <div className="header glass-panel">
         <div className="title-container">
           <h1>LingoFlash</h1>
+          <span className="mode-indicator">
+            {isFrenchPrompt ? '🇫🇷 ➔ 🇬🇧' : '🇬🇧 ➔ 🇫🇷'} ({roundProgress}/10)
+          </span>
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <button className="reload-vocab-button" onClick={handleForceReload} title="Force Reload Vocab">
@@ -183,8 +206,12 @@ function App() {
       {/* Main Flashcard display */}
       <div className="card-container glass-panel">
         <div className="flashcard">
-          <span className="flashcard-label">Traduisez le mot</span>
-          <h2 className="flashcard-word">{currentQuestion.word}</h2>
+          <span className="flashcard-label">
+            {isFrenchPrompt ? 'Traduisez en anglais' : 'Traduisez en français'}
+          </span>
+          <h2 className="flashcard-word">
+            {isFrenchPrompt ? currentQuestion.word : currentQuestion.translation}
+          </h2>
         </div>
       </div>
 
