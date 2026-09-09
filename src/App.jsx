@@ -13,8 +13,13 @@ function App() {
 
   // Load vocab configuration
   useEffect(() => {
-    fetch(`/vocab/fr.json?t=${Date.now()}`)
-      .then((res) => res.json())
+    const basePath = import.meta.env.BASE_URL || './';
+    const cleanBase = basePath.endsWith('/') ? basePath : `${basePath}/`;
+    fetch(`${cleanBase}vocab/fr.json?t=${Date.now()}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
       .then((data) => {
         setVocab(data);
       })
@@ -149,6 +154,15 @@ function App() {
     );
   }
 
+  const getImageUrl = (path) => {
+    if (!path) return '';
+    if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) return path;
+    const basePath = import.meta.env.BASE_URL || './';
+    const cleanBase = basePath.endsWith('/') ? basePath : `${basePath}/`;
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+    return `${cleanBase}${cleanPath}`;
+  };
+
   return (
     <div className="app-container">
       {/* Top Header info */}
@@ -187,7 +201,7 @@ function App() {
               disabled={isTransitioning || status === 'incorrect'}
             >
               {choice.picture ? (
-                <img src={choice.picture} alt="Translation representation" />
+                <img src={getImageUrl(choice.picture)} alt="Translation representation" />
               ) : (
                 choice.text
               )}

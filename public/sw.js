@@ -1,31 +1,36 @@
-const CACHE_NAME = 'lingoflash-v1';
-const ASSETS = [
-  '/',
-  '/index.html',
-  '/src/main.jsx',
-  '/src/App.jsx',
-  '/src/index.css',
-  '/vocab/fr.json',
-  '/images/apple.png',
-  '/images/cat.png',
-  '/images/dog.png',
-  '/images/sun.png',
-  '/images/car.png',
-  '/manifest.json'
-];
+const CACHE_NAME = 'lingoflash-v2';
 
 self.addEventListener('install', (e) => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    })
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET') return;
   e.respondWith(
-    caches.match(e.request).then((cachedResponse) => {
-      return cachedResponse || fetch(e.request);
-    })
+    fetch(e.request)
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const clonedResponse = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(e.request, clonedResponse);
+          });
+        }
+        return networkResponse;
+      })
+      .catch(() => caches.match(e.request))
   );
 });
