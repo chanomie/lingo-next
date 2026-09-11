@@ -1,7 +1,7 @@
 [
   {
     "word": "salut",
-    "translation": "hello"
+    "translation": "hello/goodbye"
   },
   {
     "word": "nom",
@@ -10,10 +10,6 @@
   {
     "word": "madame",
     "translation": "ma'am"
-  },
-  {
-    "word": "tu",
-    "translation": "you (informal)"
   },
   {
     "word": "monsieur",
@@ -32,16 +28,8 @@
     "translation": "Nice to meet you"
   },
   {
-    "word": "vous",
-    "translation": "you (formal/plural)"
-  },
-  {
     "word": "comment",
     "translation": "how"
-  },
-  {
-    "word": "toi",
-    "translation": "you (disjunctive)"
   },
   {
     "word": "prénom",
@@ -60,7 +48,7 @@
     "translation": "miss"
   },
   {
-    "word": "t'appelle tu?",
+    "word": "comment t'appelle tu?",
     "translation": "What is your name?"
   },
   {
@@ -84,8 +72,8 @@
     "translation": "August"
   },
   {
-    "word": "j'ai ... ans",
-    "translation": "I am ... years old"
+    "word": "j'ai ans",
+    "translation": "I am years old"
   },
   {
     "word": "je",
@@ -142,6 +130,46 @@
   {
     "word": "c'est le douze octobre",
     "translation": "it is October 12th"
+  },
+  {
+    "word": "l'alphabet",
+    "translation": "alphabet"
+  },
+  {
+    "word": "à bientot",
+    "translation": "goodbye"
+  },
+  {
+    "word": "ça va",
+    "translation": "OK"
+  },
+  {
+    "word": "vingt-sept",
+    "translation": "twenty-six"
+  },
+  {
+    "word": "trente et un",
+    "translation": "thirty-one"
+  },
+  {
+    "word": "américain",
+    "translation": "American (male)"
+  },
+  {
+    "word": "et",
+    "translation": "and"
+  },
+  {
+    "word": "noël",
+    "translation": "Christmas"
+  },
+  {
+    "word": "coïncidence",
+    "translation": "cooincidence"
+  },
+  {
+    "word": "pourtant",
+    "translation": "however"
   },
   {
     "word": "chien",
