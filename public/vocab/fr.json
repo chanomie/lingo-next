@@ -13,7 +13,7 @@
   },
   {
     "word": "tu",
-    "translation": "you (informal/subject)"
+    "translation": "you (informal)"
   },
   {
     "word": "monsieur",
@@ -58,6 +58,90 @@
   {
     "word": "mademoiselle",
     "translation": "miss"
+  },
+  {
+    "word": "t'appelle tu?",
+    "translation": "What is your name?"
+  },
+  {
+    "word": "et toi",
+    "translation": "and you"
+  },
+  {
+    "word": "un deux trois",
+    "translation": "one two three"
+  },
+  {
+    "word": "c'est le",
+    "translation": "it is"
+  },
+  {
+    "word": "férrier",
+    "translation": "February"
+  },
+  {
+    "word": "août",
+    "translation": "August"
+  },
+  {
+    "word": "j'ai ... ans",
+    "translation": "I am ... years old"
+  },
+  {
+    "word": "je",
+    "translation": "I"
+  },
+  {
+    "word": "tu",
+    "translation": "you (informal)"
+  },
+  {
+    "word": "vous",
+    "translation": "you (formal)"
+  },
+  {
+    "word": "Françias",
+    "translation": "French"
+  },
+  {
+    "word": "américaine",
+    "translation": "American (female)"
+  },
+  {
+    "word": "de",
+    "translation": "from"
+  },
+  {
+    "word": "un drapeau",
+    "translation": "a flag"
+  },
+  {
+    "word": "un pays",
+    "translation": "a country"
+  },
+  {
+    "word": "oui",
+    "translation": "yes"
+  },
+  {
+    "word": "non",
+    "translation": "no"
+  },
+  {
+    "word": "du",
+    "translation": "or"
+  },
+  {
+    "word": "dixe-huit",
+    "translation": "eighteen"
+  },
+  {
+    "word": "merci",
+    "translation": "thank you"
+  },
+  {
+    "word": "c'est le douze octobre",
+    "translation": "it is October 12th"
   },
   {
     "word": "chien",
