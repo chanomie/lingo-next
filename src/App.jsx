@@ -112,10 +112,10 @@ function App() {
       questionCountRef.current = nextCount;
       setQuestionCount(nextCount);
 
-      // Wait 3 seconds and go to next question
+      // Wait 1.5 seconds and go to next question
       setTimeout(() => {
         nextQuestion(nextCount);
-      }, 3000);
+      }, 1500);
     } else {
       // Mark as incorrect
       setClickedChoices((prev) => ({ ...prev, [index]: 'incorrect' }));
@@ -188,7 +188,7 @@ function App() {
       {/* Top Header info */}
       <div className="header glass-panel">
         <div className="title-container">
-          <h1>LingoFlash</h1>
+          <h1>Lingo.Next</h1>
           <span className="mode-indicator">
             {isFrenchPrompt ? '🇫🇷 ➔ 🇬🇧' : '🇬🇧 ➔ 🇫🇷'} ({roundProgress}/10)
           </span>

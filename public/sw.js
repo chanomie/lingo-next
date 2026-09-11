@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lingoflash-v2';
+const CACHE_NAME = 'lingonext-v3';
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
