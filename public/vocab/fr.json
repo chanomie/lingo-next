@@ -13,7 +13,7 @@
   },
   {
     "word": "monsieur",
-    "translation": "sir"
+    "translation": "mr."
   },
   {
     "word": "bonsoir",
@@ -25,7 +25,7 @@
   },
   {
     "word": "enchantée",
-    "translation": "Nice to meet you"
+    "translation": "delighted to see you (female)"
   },
   {
     "word": "comment",
@@ -48,8 +48,8 @@
     "translation": "miss"
   },
   {
-    "word": "comment t'appelle tu?",
-    "translation": "What is your name?"
+    "word": "comment t'appelles tu",
+    "translation": "What is your name"
   },
   {
     "word": "et toi",
@@ -120,16 +120,16 @@
     "translation": "or"
   },
   {
-    "word": "dixe-huit",
-    "translation": "eighteen"
+    "word": "quatre",
+    "translation": "four"
   },
   {
     "word": "merci",
     "translation": "thank you"
   },
   {
-    "word": "c'est le douze octobre",
-    "translation": "it is October 12th"
+    "word": "c'est le catores septembre",
+    "translation": "it is September fourteenth"
   },
   {
     "word": "l'alphabet",
@@ -144,8 +144,8 @@
     "translation": "OK"
   },
   {
-    "word": "vingt-sept",
-    "translation": "twenty-six"
+    "word": "vingt six",
+    "translation": "twenty six"
   },
   {
     "word": "trente et un",
@@ -165,7 +165,7 @@
   },
   {
     "word": "coïncidence",
-    "translation": "cooincidence"
+    "translation": "coincidence"
   },
   {
     "word": "pourtant",
@@ -175,5 +175,57 @@
     "word": "chien",
     "translation": "dog",
     "picture": "/images/dog.png"
+  },
+  {
+    "word": "enchanté",
+    "translation": "delighted to see you (male)"
+  },
+  {
+    "word": "ja vier",
+    "translation": "January"
+  },
+  {
+    "word": "mars",
+    "translation": "March"
+  },
+  {
+    "word": "avril",
+    "translation": "April"
+  },
+  {
+    "word": "mai",
+    "translation": "May"
+  },
+  {
+    "word": "juin",
+    "translation": "June"
+  },
+  {
+    "word": "juillet",
+    "translation": "June"
+  },
+  {
+    "word": "il",
+    "translation": "he"
+  },
+  {
+    "word": "elle",
+    "translation": "she"
+  },
+  {
+    "word": "nous",
+    "translation": "we"
+  },
+  {
+    "word": "mardi",
+    "translation": "Tuesday"
+  },
+  {
+    "word": "mercredi",
+    "translation": "Wednsday"
+  },
+  {
+    "word": "jeudi",
+    "translation": "Thursday"
   }
 ]
