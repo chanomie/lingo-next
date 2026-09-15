@@ -217,6 +217,10 @@
     "translation": "we"
   },
   {
+    "word": "lundi",
+    "translation": "Monday"
+  },
+  {
     "word": "mardi",
     "translation": "Tuesday"
   },
@@ -227,5 +231,13 @@
   {
     "word": "jeudi",
     "translation": "Thursday"
+  },
+    {
+    "word": "vrai",
+    "translation": "true"
+  },
+  {
+    "word": "faux",
+    "translation": "false"
   }
 ]
