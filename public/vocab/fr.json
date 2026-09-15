@@ -13,7 +13,7 @@
   },
   {
     "word": "monsieur",
-    "translation": "mr."
+    "translation": "Mr."
   },
   {
     "word": "bonsoir",
@@ -40,10 +40,6 @@
     "translation": "delighted"
   },
   {
-    "word": "bonjour",
-    "translation": "hello"
-  },
-  {
     "word": "mademoiselle",
     "translation": "miss"
   },
@@ -54,10 +50,6 @@
   {
     "word": "et toi",
     "translation": "and you"
-  },
-  {
-    "word": "un deux trois",
-    "translation": "one two three"
   },
   {
     "word": "c'est le",
@@ -72,8 +64,8 @@
     "translation": "August"
   },
   {
-    "word": "j'ai ans",
-    "translation": "I am years old"
+    "word": "j'ai douze ans",
+    "translation": "I am twelve years old"
   },
   {
     "word": "je",
@@ -120,16 +112,16 @@
     "translation": "or"
   },
   {
-    "word": "quatre",
-    "translation": "four"
+    "word": "cinq",
+    "translation": "five"
   },
   {
     "word": "merci",
     "translation": "thank you"
   },
   {
-    "word": "c'est le catores septembre",
-    "translation": "it is September fourteenth"
+    "word": "c'est le quinze septembre",
+    "translation": "it is September fifteenth"
   },
   {
     "word": "l'alphabet",
@@ -164,10 +156,6 @@
     "translation": "Christmas"
   },
   {
-    "word": "coïncidence",
-    "translation": "coincidence"
-  },
-  {
     "word": "pourtant",
     "translation": "however"
   },
@@ -181,7 +169,7 @@
     "translation": "delighted to see you (male)"
   },
   {
-    "word": "ja vier",
+    "word": "janvier",
     "translation": "January"
   },
   {
@@ -232,12 +220,28 @@
     "word": "jeudi",
     "translation": "Thursday"
   },
-    {
+  {
     "word": "vrai",
     "translation": "true"
   },
   {
     "word": "faux",
     "translation": "false"
+  },
+  {
+    "word": "vendredi",
+    "translation": "Friday"
+  },
+  {
+    "word": "samedi",
+    "translation": "Saturday"
+  },
+  {
+    "word": "dimanche",
+    "translation": "Sunday"
+  },
+  {
+    "word": "au revoir",
+    "translation": "goodbye"
   }
 ]
