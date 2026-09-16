@@ -12,6 +12,44 @@ function App() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [questionCount, setQuestionCount] = useState(0);
   const questionCountRef = useRef(0);
+  const retryQueueRef = useRef([]);
+  const currentQuestionDistractorsRef = useRef([]);
+  const currentQuestionRef = useRef(null);
+  const [isSoundEnabled, setIsSoundEnabled] = useState(() => {
+    return localStorage.getItem('lingonext_sound') !== 'false';
+  });
+
+  const toggleSound = () => {
+    setIsSoundEnabled((prev) => {
+      const next = !prev;
+      localStorage.setItem('lingonext_sound', String(next));
+      if (!next && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      return next;
+    });
+  };
+
+  const speakFrench = useCallback((text) => {
+    if (!('speechSynthesis' in window) || !text) return;
+    if (!isSoundEnabled) return;
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'fr-FR';
+      utterance.rate = 0.88;
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      console.error('Speech synthesis error:', e);
+    }
+  }, [isSoundEnabled]);
+
+  // Prime speech voices on mount
+  useEffect(() => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+    }
+  }, []);
 
   // Load vocab configuration
   useEffect(() => {
@@ -36,16 +74,39 @@ function App() {
     // 10 times French prompt -> 10 times English prompt -> repeat
     const isFrenchPrompt = Math.floor(count / 10) % 2 === 0;
 
-    // Pick a random word from vocab as the correct answer
-    const correctIdx = Math.floor(Math.random() * vocab.length);
-    const correctItem = vocab[correctIdx];
+    // Check if any previously missed word is scheduled for repetition at or before this count
+    const dueIdx = retryQueueRef.current.findIndex((entry) => entry.dueAt <= count);
+
+    let correctItem = null;
+    let previousDistractorWords = [];
+
+    if (dueIdx !== -1) {
+      // Dequeue the scheduled review word
+      const [dueEntry] = retryQueueRef.current.splice(dueIdx, 1);
+      correctItem = dueEntry.item;
+      previousDistractorWords = dueEntry.previousDistractorWords || [];
+    } else {
+      // Pick a random word from vocab (avoid immediate consecutive repeat if possible)
+      const availableVocab = currentQuestionRef.current && vocab.length > 1
+        ? vocab.filter((x) => x.word !== currentQuestionRef.current.word)
+        : vocab;
+      const correctIdx = Math.floor(Math.random() * availableVocab.length);
+      correctItem = availableVocab[correctIdx];
+    }
 
     // Pick 3 unique incorrect answers from the rest of the vocab
-    const pool = vocab.filter((_, idx) => idx !== correctIdx);
+    const pool = vocab.filter((x) => x.word !== correctItem.word);
+
+    // Filter out previous distractors so a DIFFERENT set of alternate answers is presented
+    const freshPool = pool.filter((x) => !previousDistractorWords.includes(x.word));
+    const distractorCandidates = freshPool.length >= 3 ? freshPool : pool;
+
     const incorrectItems = [];
-    while (incorrectItems.length < 3) {
-      const randIdx = Math.floor(Math.random() * pool.length);
-      const item = pool[randIdx];
+    const poolCopy = [...distractorCandidates];
+
+    while (incorrectItems.length < 3 && poolCopy.length > 0) {
+      const randIdx = Math.floor(Math.random() * poolCopy.length);
+      const item = poolCopy.splice(randIdx, 1)[0];
       const isDuplicate = isFrenchPrompt
         ? item.translation.toLowerCase().trim() === correctItem.translation.toLowerCase().trim() ||
           incorrectItems.some((x) => x.translation.toLowerCase().trim() === item.translation.toLowerCase().trim())
@@ -56,6 +117,9 @@ function App() {
         incorrectItems.push(item);
       }
     }
+
+    // Save distractors shown for the current question
+    currentQuestionDistractorsRef.current = incorrectItems;
 
     // Determine correct representation (text translation or picture if exists)
     // 50% chance to show picture if it exists, only when prompt is in French
@@ -80,12 +144,17 @@ function App() {
     // Shuffle choices
     const shuffledChoices = choices.sort(() => Math.random() - 0.5);
 
+    currentQuestionRef.current = correctItem;
     setCurrentQuestion(correctItem);
     setOptions(shuffledChoices);
     setClickedChoices({});
     setHasFailedThisTurn(false);
     setIsTransitioning(false);
-  }, [vocab]);
+
+    if (isFrenchPrompt) {
+      speakFrench(correctItem.word);
+    }
+  }, [vocab, speakFrench]);
 
   // Trigger first question when vocab loads
   useEffect(() => {
@@ -101,6 +170,14 @@ function App() {
       // Mark as correct
       setClickedChoices((prev) => ({ ...prev, [index]: 'correct' }));
       setIsTransitioning(true);
+
+      const count = questionCountRef.current;
+      const isFrenchPrompt = Math.floor(count / 10) % 2 === 0;
+
+      // When answering in English -> French mode, pronounce the chosen correct French word
+      if (!isFrenchPrompt && choice.text) {
+        speakFrench(choice.text);
+      }
 
       // Scoring logic
       if (!hasFailedThisTurn) {
@@ -120,10 +197,32 @@ function App() {
       // Mark as incorrect
       setClickedChoices((prev) => ({ ...prev, [index]: 'incorrect' }));
       
-      // If first mistake on this question, register a failure and count it in total attempts
+      // If first mistake on this question, register a failure and schedule repetition within 3-5 questions
       if (!hasFailedThisTurn) {
         setHasFailedThisTurn(true);
         setTotalAnswered((t) => t + 1);
+
+        // Schedule to repeat in 3, 4, or 5 follow-on questions
+        const repeatOffset = Math.floor(Math.random() * 3) + 3; // 3 to 5
+        const dueAt = questionCountRef.current + repeatOffset;
+        const distractorWords = currentQuestionDistractorsRef.current.map((d) => d.word);
+
+        const existingIdx = retryQueueRef.current.findIndex(
+          (entry) => entry.item.word === currentQuestionRef.current.word
+        );
+        if (existingIdx !== -1) {
+          retryQueueRef.current[existingIdx] = {
+            item: currentQuestionRef.current,
+            dueAt,
+            previousDistractorWords: distractorWords,
+          };
+        } else {
+          retryQueueRef.current.push({
+            item: currentQuestionRef.current,
+            dueAt,
+            previousDistractorWords: distractorWords,
+          });
+        }
       }
     }
   };
@@ -133,6 +232,9 @@ function App() {
   };
 
   const handleRestart = () => {
+    retryQueueRef.current = [];
+    currentQuestionDistractorsRef.current = [];
+    currentQuestionRef.current = null;
     questionCountRef.current = 0;
     setQuestionCount(0);
     setScore(0);
@@ -194,6 +296,14 @@ function App() {
           </span>
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <button
+            className="sound-toggle-button"
+            onClick={toggleSound}
+            title={isSoundEnabled ? 'Mute audio' : 'Enable audio'}
+            aria-label={isSoundEnabled ? 'Mute audio' : 'Enable audio'}
+          >
+            {isSoundEnabled ? '🔊' : '🔇'}
+          </button>
           <button className="reload-vocab-button" onClick={handleForceReload} title="Force Reload Vocab">
             🔄
           </button>
@@ -209,9 +319,21 @@ function App() {
           <span className="flashcard-label">
             {isFrenchPrompt ? 'Traduisez en anglais' : 'Traduisez en français'}
           </span>
-          <h2 className="flashcard-word">
-            {isFrenchPrompt ? currentQuestion.word : currentQuestion.translation}
-          </h2>
+          <div className="word-with-sound">
+            <h2 className="flashcard-word">
+              {isFrenchPrompt ? currentQuestion.word : currentQuestion.translation}
+            </h2>
+            {isFrenchPrompt && (
+              <button
+                className="card-audio-btn"
+                onClick={() => speakFrench(currentQuestion.word)}
+                title="Écouter la prononciation"
+                aria-label="Écouter la prononciation"
+              >
+                🔊
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
