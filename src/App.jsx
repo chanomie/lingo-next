@@ -16,10 +16,8 @@ function App() {
   const currentQuestionDistractorsRef = useRef([]);
   const currentQuestionRef = useRef(null);
   const hasInitializedRef = useRef(false);
-  const [isSoundEnabled, setIsSoundEnabled] = useState(() => {
-    return localStorage.getItem('lingonext_sound') !== 'false';
-  });
-  const isSoundEnabledRef = useRef(isSoundEnabled);
+  const [isSoundEnabled, setIsSoundEnabled] = useState(false);
+  const isSoundEnabledRef = useRef(false);
 
   const toggleSound = (e) => {
     if (e) {
@@ -29,17 +27,25 @@ function App() {
     setIsSoundEnabled((prev) => {
       const next = !prev;
       isSoundEnabledRef.current = next;
-      localStorage.setItem('lingonext_sound', String(next));
-      if (!next && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
+      if (!next) {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+      } else {
+        // User tapped unmute! Unlocks audio on iOS and immediately pronounces current French word
+        const count = questionCountRef.current;
+        const isFrenchPrompt = Math.floor(count / 10) % 2 === 0;
+        if (isFrenchPrompt && currentQuestionRef.current) {
+          speakFrench(currentQuestionRef.current.word, true);
+        }
       }
       return next;
     });
   };
 
-  const speakFrench = useCallback((text) => {
+  const speakFrench = useCallback((text, force = false) => {
     if (!('speechSynthesis' in window) || !text) return;
-    if (!isSoundEnabledRef.current) return;
+    if (!isSoundEnabledRef.current && !force) return;
     try {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
@@ -333,8 +339,9 @@ function App() {
             </h2>
             {isFrenchPrompt && (
               <button
+                type="button"
                 className="card-audio-btn"
-                onClick={() => speakFrench(currentQuestion.word)}
+                onClick={() => speakFrench(currentQuestion.word, true)}
                 title="Écouter la prononciation"
                 aria-label="Écouter la prononciation"
               >
