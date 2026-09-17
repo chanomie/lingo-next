@@ -15,13 +15,20 @@ function App() {
   const retryQueueRef = useRef([]);
   const currentQuestionDistractorsRef = useRef([]);
   const currentQuestionRef = useRef(null);
+  const hasInitializedRef = useRef(false);
   const [isSoundEnabled, setIsSoundEnabled] = useState(() => {
     return localStorage.getItem('lingonext_sound') !== 'false';
   });
+  const isSoundEnabledRef = useRef(isSoundEnabled);
 
-  const toggleSound = () => {
+  const toggleSound = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setIsSoundEnabled((prev) => {
       const next = !prev;
+      isSoundEnabledRef.current = next;
       localStorage.setItem('lingonext_sound', String(next));
       if (!next && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
@@ -32,7 +39,7 @@ function App() {
 
   const speakFrench = useCallback((text) => {
     if (!('speechSynthesis' in window) || !text) return;
-    if (!isSoundEnabled) return;
+    if (!isSoundEnabledRef.current) return;
     try {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
@@ -42,7 +49,7 @@ function App() {
     } catch (e) {
       console.error('Speech synthesis error:', e);
     }
-  }, [isSoundEnabled]);
+  }, []);
 
   // Prime speech voices on mount
   useEffect(() => {
@@ -156,9 +163,10 @@ function App() {
     }
   }, [vocab, speakFrench]);
 
-  // Trigger first question when vocab loads
+  // Trigger first question ONLY once when vocab initially loads
   useEffect(() => {
-    if (vocab.length > 0) {
+    if (vocab.length > 0 && !hasInitializedRef.current) {
+      hasInitializedRef.current = true;
       nextQuestion(0);
     }
   }, [vocab, nextQuestion]);
