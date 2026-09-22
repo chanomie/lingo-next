@@ -70,16 +70,6 @@
     "category": "word"
   },
   {
-    "word": "férrier",
-    "translation": "February",
-    "category": "word"
-  },
-  {
-    "word": "août",
-    "translation": "August",
-    "category": "word"
-  },
-  {
     "word": "j'ai douze ans",
     "translation": "I am twelve years old",
     "category": "phrase"
@@ -212,33 +202,63 @@
   },
   {
     "word": "janvier",
-    "translation": "January",
-    "category": "word"
+    "translation": "january",
+    "category": "months"
+  },
+  {
+    "word": "férrier",
+    "translation": "February",
+    "category": "months"
   },
   {
     "word": "mars",
     "translation": "March",
-    "category": "word"
+    "category": "months"
   },
   {
     "word": "avril",
     "translation": "April",
-    "category": "word"
+    "category": "months"
   },
   {
     "word": "mai",
     "translation": "May",
-    "category": "word"
+    "category": "months"
   },
   {
     "word": "juin",
     "translation": "June",
-    "category": "word"
+    "category": "months"
   },
   {
     "word": "juillet",
-    "translation": "June",
-    "category": "word"
+    "translation": "July",
+    "category": "months"
+  },
+  {
+    "word": "août",
+    "translation": "August",
+    "category": "months"
+  },
+  {
+    "word": "septembre",
+    "translation": "September",
+    "category": "months"
+  },
+  {
+    "word": "octobre",
+    "translation": "October",
+    "category": "months"
+  },
+  {
+    "word": "novembre",
+    "translation": "November",
+    "category": "months"
+  },
+  {
+    "word": "décembre",
+    "translation": "December",
+    "category": "months"
   },
   {
     "word": "il",
