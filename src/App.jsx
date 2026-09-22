@@ -19,6 +19,11 @@ function App() {
   const [isSoundEnabled, setIsSoundEnabled] = useState(false);
   const isSoundEnabledRef = useRef(false);
 
+  const normalizeCategory = (value) => {
+    const category = typeof value === 'string' ? value.trim().toLowerCase() : 'word';
+    return category || 'word';
+  };
+
   const toggleSound = (e) => {
     if (e) {
       e.preventDefault();
@@ -81,7 +86,7 @@ function App() {
 
   // Generate a new flashcard question
   const nextQuestion = useCallback((overrideCount) => {
-    if (vocab.length < 4) return;
+    if (vocab.length < 2) return;
 
     const count = typeof overrideCount === 'number' ? overrideCount : questionCountRef.current;
     // 10 times French prompt -> 10 times English prompt -> repeat
@@ -92,23 +97,33 @@ function App() {
 
     let correctItem = null;
     let previousDistractorWords = [];
+    let currentCategory = 'word';
 
     if (dueIdx !== -1) {
       // Dequeue the scheduled review word
       const [dueEntry] = retryQueueRef.current.splice(dueIdx, 1);
       correctItem = dueEntry.item;
       previousDistractorWords = dueEntry.previousDistractorWords || [];
+      currentCategory = normalizeCategory(correctItem.category);
     } else {
-      // Pick a random word from vocab (avoid immediate consecutive repeat if possible)
-      const availableVocab = currentQuestionRef.current && vocab.length > 1
-        ? vocab.filter((x) => x.word !== currentQuestionRef.current.word)
-        : vocab;
+      const categories = [...new Set(vocab.map((item) => normalizeCategory(item.category)))];
+      const chosenCategory = categories[Math.floor(Math.random() * categories.length)] || 'word';
+      const categoryPool = vocab.filter((item) => normalizeCategory(item.category) === chosenCategory);
+
+      let availableVocab = categoryPool;
+      if (currentQuestionRef.current && availableVocab.length > 1) {
+        availableVocab = availableVocab.filter((x) => x.word !== currentQuestionRef.current.word);
+      }
+      if (availableVocab.length === 0) {
+        availableVocab = vocab;
+      }
+
       const correctIdx = Math.floor(Math.random() * availableVocab.length);
       correctItem = availableVocab[correctIdx];
+      currentCategory = normalizeCategory(correctItem.category);
     }
 
-    // Pick 3 unique incorrect answers from the rest of the vocab
-    const pool = vocab.filter((x) => x.word !== correctItem.word);
+    const pool = vocab.filter((x) => normalizeCategory(x.category) === currentCategory && x.word !== correctItem.word);
 
     // Filter out previous distractors so a DIFFERENT set of alternate answers is presented
     const freshPool = pool.filter((x) => !previousDistractorWords.includes(x.word));

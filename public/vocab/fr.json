@@ -1,247 +1,358 @@
 [
   {
     "word": "salut",
-    "translation": "hello/goodbye"
+    "translation": "hello/goodbye",
+    "category": "word"
   },
   {
     "word": "nom",
-    "translation": "name"
+    "translation": "name",
+    "category": "word"
   },
   {
     "word": "madame",
-    "translation": "ma'am"
+    "translation": "ma'am",
+    "category": "word"
   },
   {
     "word": "monsieur",
-    "translation": "Mr."
+    "translation": "Mr.",
+    "category": "word"
   },
   {
     "word": "bonsoir",
-    "translation": "good evening"
+    "translation": "good evening",
+    "category": "word"
   },
   {
     "word": "de même",
-    "translation": "likewise"
+    "translation": "likewise",
+    "category": "word"
   },
   {
     "word": "enchantée",
-    "translation": "delighted to see you (female)"
+    "translation": "delighted to see you (female)",
+    "category": "phrase"
   },
   {
     "word": "comment",
-    "translation": "how"
+    "translation": "how",
+    "category": "word"
   },
   {
     "word": "prénom",
-    "translation": "first name"
+    "translation": "first name",
+    "category": "word"
   },
   {
     "word": "ravie",
-    "translation": "delighted"
+    "translation": "delighted",
+    "category": "word"
   },
   {
     "word": "mademoiselle",
-    "translation": "miss"
+    "translation": "miss",
+    "category": "word"
   },
   {
     "word": "comment t'appelles tu",
-    "translation": "What is your name"
+    "translation": "What is your name",
+    "category": "phrase"
   },
   {
     "word": "et toi",
-    "translation": "and you"
+    "translation": "and you",
+    "category": "word"
   },
   {
     "word": "c'est le",
-    "translation": "it is"
+    "translation": "it is",
+    "category": "word"
   },
   {
     "word": "férrier",
-    "translation": "February"
+    "translation": "February",
+    "category": "word"
   },
   {
     "word": "août",
-    "translation": "August"
+    "translation": "August",
+    "category": "word"
   },
   {
     "word": "j'ai douze ans",
-    "translation": "I am twelve years old"
+    "translation": "I am twelve years old",
+    "category": "phrase"
   },
   {
     "word": "je",
-    "translation": "I"
+    "translation": "I",
+    "category": "word"
   },
   {
     "word": "tu",
-    "translation": "you (informal)"
+    "translation": "you (informal)",
+    "category": "word"
   },
   {
     "word": "vous",
-    "translation": "you (formal)"
+    "translation": "you (formal)",
+    "category": "word"
   },
   {
     "word": "Françias",
-    "translation": "French"
+    "translation": "French",
+    "category": "word"
   },
   {
     "word": "américaine",
-    "translation": "American (female)"
+    "translation": "American (female)",
+    "category": "word"
   },
   {
     "word": "de",
-    "translation": "from"
+    "translation": "from",
+    "category": "word"
   },
   {
     "word": "un drapeau",
-    "translation": "a flag"
+    "translation": "a flag",
+    "category": "word"
   },
   {
     "word": "un pays",
-    "translation": "a country"
+    "translation": "a country",
+    "category": "word"
   },
   {
     "word": "oui",
-    "translation": "yes"
+    "translation": "yes",
+    "category": "word"
   },
   {
     "word": "non",
-    "translation": "no"
+    "translation": "no",
+    "category": "word"
   },
   {
     "word": "du",
-    "translation": "or"
+    "translation": "or",
+    "category": "word"
   },
   {
     "word": "cinq",
-    "translation": "five"
+    "translation": "five",
+    "category": "word"
   },
   {
     "word": "merci",
-    "translation": "thank you"
+    "translation": "thank you",
+    "category": "word"
   },
   {
     "word": "c'est le quinze septembre",
-    "translation": "it is September fifteenth"
+    "translation": "it is September fifteenth",
+    "category": "phrase"
   },
   {
     "word": "l'alphabet",
-    "translation": "alphabet"
+    "translation": "alphabet",
+    "category": "word"
   },
   {
     "word": "à bientot",
-    "translation": "goodbye"
+    "translation": "goodbye",
+    "category": "word"
   },
   {
     "word": "ça va",
-    "translation": "OK"
+    "translation": "OK",
+    "category": "word"
   },
   {
     "word": "vingt six",
-    "translation": "twenty six"
+    "translation": "twenty six",
+    "category": "word"
   },
   {
     "word": "trente et un",
-    "translation": "thirty-one"
+    "translation": "thirty-one",
+    "category": "word"
   },
   {
     "word": "américain",
-    "translation": "American (male)"
+    "translation": "American (male)",
+    "category": "word"
   },
   {
     "word": "et",
-    "translation": "and"
+    "translation": "and",
+    "category": "word"
   },
   {
     "word": "noël",
-    "translation": "Christmas"
+    "translation": "Christmas",
+    "category": "word"
   },
   {
     "word": "pourtant",
-    "translation": "however"
+    "translation": "however",
+    "category": "word"
   },
   {
     "word": "chien",
     "translation": "dog",
-    "picture": "/images/dog.png"
+    "picture": "/images/dog.png",
+    "category": "word"
   },
   {
     "word": "enchanté",
-    "translation": "delighted to see you (male)"
+    "translation": "delighted to see you (male)",
+    "category": "word"
   },
   {
     "word": "janvier",
-    "translation": "January"
+    "translation": "January",
+    "category": "word"
   },
   {
     "word": "mars",
-    "translation": "March"
+    "translation": "March",
+    "category": "word"
   },
   {
     "word": "avril",
-    "translation": "April"
+    "translation": "April",
+    "category": "word"
   },
   {
     "word": "mai",
-    "translation": "May"
+    "translation": "May",
+    "category": "word"
   },
   {
     "word": "juin",
-    "translation": "June"
+    "translation": "June",
+    "category": "word"
   },
   {
     "word": "juillet",
-    "translation": "June"
+    "translation": "June",
+    "category": "word"
   },
   {
     "word": "il",
-    "translation": "he"
+    "translation": "he",
+    "category": "word"
   },
   {
     "word": "elle",
-    "translation": "she"
+    "translation": "she",
+    "category": "word"
   },
   {
     "word": "nous",
-    "translation": "we"
+    "translation": "we",
+    "category": "word"
   },
   {
     "word": "lundi",
-    "translation": "Monday"
+    "translation": "Monday",
+    "category": "word"
   },
   {
     "word": "mardi",
-    "translation": "Tuesday"
+    "translation": "Tuesday",
+    "category": "word"
   },
   {
     "word": "mercredi",
-    "translation": "Wednsday"
+    "translation": "Wednsday",
+    "category": "word"
   },
   {
     "word": "jeudi",
-    "translation": "Thursday"
+    "translation": "Thursday",
+    "category": "word"
   },
   {
     "word": "vrai",
-    "translation": "true"
+    "translation": "true",
+    "category": "word"
   },
   {
     "word": "faux",
-    "translation": "false"
+    "translation": "false",
+    "category": "word"
   },
   {
     "word": "vendredi",
-    "translation": "Friday"
+    "translation": "Friday",
+    "category": "word"
   },
   {
     "word": "samedi",
-    "translation": "Saturday"
+    "translation": "Saturday",
+    "category": "word"
   },
   {
     "word": "dimanche",
-    "translation": "Sunday"
+    "translation": "Sunday",
+    "category": "word"
   },
   {
     "word": "au revoir",
-    "translation": "goodbye"
+    "translation": "goodbye",
+    "category": "word"
+  },
+  {
+    "word": "J'ai une fille",
+    "translation": "I have a daughter",
+    "category": "phrase"
+  },
+  {
+    "word": "J'ai une sœur",
+    "translation": "I have a sister",
+    "category": "phrase"
+  },
+  {
+    "word": "Tu es un neveu",
+    "translation": "You have a nephew",
+    "category": "phrase"
+  },
+  {
+    "word": "mère",
+    "translation": "mother",
+    "category": "family"
+  },
+  {
+    "word": "père",
+    "translation": "father",
+    "category": "family"
+  },
+  {
+    "word": "sœur",
+    "translation": "sister",
+    "category": "family"
+  },
+  {
+    "word": "frère",
+    "translation": "brother",
+    "category": "family"
+  },
+  {
+    "word": "fille",
+    "translation": "daughter",
+    "category": "family"
+  },
+  {
+    "word": "tante",
+    "translation": "aunt",
+    "category": "family"
+  },
+  {
+    "word": "oncle",
+    "translation": "uncle",
+    "category": "family"
   }
 ]
