@@ -206,7 +206,7 @@
     "category": "months"
   },
   {
-    "word": "férrier",
+    "word": "février",
     "translation": "February",
     "category": "months"
   },
@@ -261,39 +261,24 @@
     "category": "months"
   },
   {
-    "word": "il",
-    "translation": "he",
-    "category": "word"
-  },
-  {
-    "word": "elle",
-    "translation": "she",
-    "category": "word"
-  },
-  {
-    "word": "nous",
-    "translation": "we",
-    "category": "word"
-  },
-  {
     "word": "lundi",
     "translation": "Monday",
-    "category": "word"
+    "category": "day"
   },
   {
     "word": "mardi",
     "translation": "Tuesday",
-    "category": "word"
+    "category": "day"
   },
   {
     "word": "mercredi",
     "translation": "Wednsday",
-    "category": "word"
+    "category": "day"
   },
   {
     "word": "jeudi",
     "translation": "Thursday",
-    "category": "word"
+    "category": "day"
   },
   {
     "word": "vrai",
@@ -308,17 +293,17 @@
   {
     "word": "vendredi",
     "translation": "Friday",
-    "category": "word"
+    "category": "day"
   },
   {
     "word": "samedi",
     "translation": "Saturday",
-    "category": "word"
+    "category": "day"
   },
   {
     "word": "dimanche",
     "translation": "Sunday",
-    "category": "word"
+    "category": "day"
   },
   {
     "word": "au revoir",
@@ -374,5 +359,176 @@
     "word": "oncle",
     "translation": "uncle",
     "category": "family"
+  },
+  {
+    "word": "vous",
+    "translation": "you (formal)",
+    "category": "pronoun"
+  },
+  {
+    "word": "je",
+    "translation": "I",
+    "category": "pronoun"
+  },
+  {
+    "word": "tu",
+    "translation": "you (informal)",
+    "category": "prnoun"
+  },
+  {
+    "word": "il",
+    "translation": "he",
+    "category": "pronoun"
+  },
+  {
+    "word": "elle",
+    "translation": "she",
+    "category": "pronoun"
+  },
+  {
+    "word": "nous",
+    "translation": "we",
+    "category": "pronoun"
+  },
+  {
+    "word": "où",
+    "translation": "where",
+    "category": "words"
+  },
+  {
+    "word": "garçon",
+    "translation": "boy",
+    "category": "words"
+  },
+  {
+    "word": "fille",
+    "translation": "girl",
+    "category": "words"
+  },
+  {
+    "word": "un cours",
+    "translation": "a class",
+    "category": "class"
+  },
+  {
+    "word": "je ne sais pas",
+    "translation": "I don't know",
+    "category": "phrase"
+  },
+  {
+    "word": "étudie",
+    "translation": "study",
+    "category": "class"
+  },
+  {
+    "word": "merci beacoup",
+    "translation": "thank you very much",
+    "category": "phrase"
+  },
+  {
+    "word": "moi",
+    "translation": "me",
+    "category": "pronoun"
+  },
+  {
+    "word": "le mathématiques",
+    "translation": "mathematics",
+    "category": "class"
+  },
+  {
+    "word": "l'art",
+    "translation": "art",
+    "category": "class"
+  },
+  {
+    "word": "la biologie",
+    "translation": "biology",
+    "category": "class"
+  },
+  {
+    "word": "l'histoire",
+    "translation": "history",
+    "category": "class"
+  },
+  {
+    "word": "L'EPS",
+    "translation": "P. E.",
+    "category": "class"
+  },
+  {
+    "word": "le langues",
+    "translation": "languages",
+    "category": "class"
+  },
+  {
+    "word": "un ordinateur",
+    "translation": "a computer",
+    "category": "object"
+  },
+  {
+    "word": "ami",
+    "translation": "friend",
+    "category": "words"
+  },
+  {
+    "word": "un carte",
+    "translation": "a map",
+    "category": "object"
+  },
+ {
+    "word": "des",
+    "translation": "some",
+    "category": "words"
+  },
+  {
+    "word": "un livre",
+    "translation": "a book",
+    "category": "object"
+  },
+  {
+    "word": "chat",
+    "translation": "cat",
+    "category": "words"
+  },
+  {
+    "word": "un élève",
+    "translation": "a student",
+    "category": "class"
+  },
+  {
+    "word": "un dictonnaire",
+    "translation": "a dictionary",
+    "category": "object"
+  },
+  {
+    "word": "écoutez",
+    "translation": "to listen",
+    "category": "command"
+  },
+  {
+    "word": "ouvrez",
+    "translation": "to open",
+    "category": "command"
+  },
+  {
+    "word": "fermez",
+    "translation": "to close",
+    "category": "command"
+  },
+  {
+    "word": "répétez",
+    "translation": "to repeat",
+    "category": "command"
+  },
+  {
+    "word": "lisez",
+    "translation": "to read",
+    "category": "command"
+  },
+  {
+    "word": "regardez",
+    "translation": "to look/watch",
+    "category": "command"
   }
 ]
+
