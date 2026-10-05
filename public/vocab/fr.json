@@ -1,10 +1,5 @@
 [
   {
-    "word": "salut",
-    "translation": "hello/goodbye",
-    "category": "word"
-  },
-  {
     "word": "nom",
     "translation": "name",
     "category": "word"
@@ -12,17 +7,17 @@
   {
     "word": "madame",
     "translation": "ma'am",
-    "category": "word"
+    "category": "honorifics"
   },
   {
     "word": "monsieur",
     "translation": "Mr.",
-    "category": "word"
+    "category": "honorifics"
   },
   {
     "word": "bonsoir",
     "translation": "good evening",
-    "category": "word"
+    "category": "greeting"
   },
   {
     "word": "de même",
@@ -32,7 +27,7 @@
   {
     "word": "enchantée",
     "translation": "delighted to see you (female)",
-    "category": "phrase"
+    "category": "greeting"
   },
   {
     "word": "comment",
@@ -47,12 +42,12 @@
   {
     "word": "ravie",
     "translation": "delighted",
-    "category": "word"
+    "category": "greeting"
   },
   {
     "word": "mademoiselle",
     "translation": "miss",
-    "category": "word"
+    "category": "honorifics"
   },
   {
     "word": "comment t'appelles tu",
@@ -65,39 +60,19 @@
     "category": "word"
   },
   {
-    "word": "c'est le",
-    "translation": "it is",
-    "category": "word"
-  },
-  {
-    "word": "j'ai douze ans",
-    "translation": "I am twelve years old",
+    "word": "j'ai treize ans",
+    "translation": "I am thirteen years old",
     "category": "phrase"
-  },
-  {
-    "word": "je",
-    "translation": "I",
-    "category": "word"
-  },
-  {
-    "word": "tu",
-    "translation": "you (informal)",
-    "category": "word"
-  },
-  {
-    "word": "vous",
-    "translation": "you (formal)",
-    "category": "word"
   },
   {
     "word": "Françias",
     "translation": "French",
-    "category": "word"
+    "category": "country"
   },
   {
     "word": "américaine",
     "translation": "American (female)",
-    "category": "word"
+    "category": "country"
   },
   {
     "word": "de",
@@ -107,12 +82,12 @@
   {
     "word": "un drapeau",
     "translation": "a flag",
-    "category": "word"
+    "category": "country"
   },
   {
     "word": "un pays",
     "translation": "a country",
-    "category": "word"
+    "category": "country"
   },
   {
     "word": "oui",
@@ -130,8 +105,8 @@
     "category": "word"
   },
   {
-    "word": "cinq",
-    "translation": "five",
+    "word": "sept",
+    "translation": "seven",
     "category": "word"
   },
   {
@@ -140,48 +115,28 @@
     "category": "word"
   },
   {
-    "word": "c'est le quinze septembre",
-    "translation": "it is September fifteenth",
+    "word": "c'est le cinq octobre",
+    "translation": "it is Octobre fifth",
     "category": "phrase"
-  },
-  {
-    "word": "l'alphabet",
-    "translation": "alphabet",
-    "category": "word"
   },
   {
     "word": "à bientot",
     "translation": "goodbye",
-    "category": "word"
+    "category": "greeting"
   },
   {
     "word": "ça va",
-    "translation": "OK",
-    "category": "word"
-  },
-  {
-    "word": "vingt six",
-    "translation": "twenty six",
-    "category": "word"
-  },
-  {
-    "word": "trente et un",
-    "translation": "thirty-one",
+    "translation": "so so",
     "category": "word"
   },
   {
     "word": "américain",
     "translation": "American (male)",
-    "category": "word"
+    "category": "country"
   },
   {
     "word": "et",
     "translation": "and",
-    "category": "word"
-  },
-  {
-    "word": "noël",
-    "translation": "Christmas",
     "category": "word"
   },
   {
@@ -198,7 +153,7 @@
   {
     "word": "enchanté",
     "translation": "delighted to see you (male)",
-    "category": "word"
+    "category": "greeting"
   },
   {
     "word": "janvier",
@@ -308,7 +263,7 @@
   {
     "word": "au revoir",
     "translation": "goodbye",
-    "category": "word"
+    "category": "greeting"
   },
   {
     "word": "J'ai une fille",
@@ -373,7 +328,7 @@
   {
     "word": "tu",
     "translation": "you (informal)",
-    "category": "prnoun"
+    "category": "pronoun"
   },
   {
     "word": "il",
@@ -529,6 +484,111 @@
     "word": "regardez",
     "translation": "to look/watch",
     "category": "command"
-  }
+  },
+  {
+    "word": "un cahier",
+    "translation": "a notebook",
+    "category": "object"
+  },
+  {
+    "word": "un tablette",
+    "translation": "a tablet",
+    "category": "object"
+  },
+  {
+    "word": "un stylo",
+    "translation": "a pen",
+    "category": "object"
+  },
+  {
+    "word": "un crayon",
+    "translation": "a pencil",
+    "category": "object"
+  },
+  {
+    "word": "si'l vous plait",
+    "translation": "please (formal)",
+    "category": "phrase"
+  },
+  {
+    "word": "un calculatrice",
+    "translation": "a calculator",
+    "category": "object"
+  },
+  {
+    "word": "un tableau",
+    "translation": "a white board",
+    "category": "object"
+  },
+  {
+    "word": "faites",
+    "translation": "do",
+    "category": "words"
+  },
+  {
+    "word": "médecin",
+    "translation": "doctor",
+    "category": "honorifics"
+  },
+  {
+    "word": "parlez",
+    "translation": "to speak",
+    "category": "command"
+  },
+  {
+    "word": "allez",
+    "translation": "to go",
+    "category": "command"
+  },
+  {
+    "word": "dessinez",
+    "translation": "to draw",
+    "category": "command"
+  },
+  {
+    "word": "montrez",
+    "translation": "to show",
+    "category": "command"
+  },
+  {
+    "word": "levez-vous",
+    "translation": "to stand up",
+    "category": "command"
+  },
+  {
+    "word": "asseyez-vous",
+    "translation": "to sit down",
+    "category": "command"
+  },
+  {
+    "word": "écrivez",
+    "translation": "to write",
+    "category": "command"
+  },
+  {
+    "word": "changez",
+    "translation": "to change",
+    "category": "command"
+  },
+  {
+    "word": "commencez",
+    "translation": "to start",
+    "category": "command"
+  },
+  {
+    "word": "arrêtez",
+    "translation": "to stop",
+    "category": "command"
+  },
+  {
+    "word": "la chime",
+    "translation": "chemistry",
+    "category": "class"
+  },
+  {
+    "word": "un chaise",
+    "translation": "chair",
+    "category": "object"
+  },
 ]
 

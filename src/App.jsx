@@ -13,6 +13,8 @@ function App() {
   const [questionCount, setQuestionCount] = useState(0);
   const questionCountRef = useRef(0);
   const retryQueueRef = useRef([]);
+  const cooldownUntilRef = useRef(new Map());
+  const lastPickedItemRef = useRef(null);
   const currentQuestionDistractorsRef = useRef([]);
   const currentQuestionRef = useRef(null);
   const hasInitializedRef = useRef(false);
@@ -92,8 +94,22 @@ function App() {
     // 10 times French prompt -> 10 times English prompt -> repeat
     const isFrenchPrompt = Math.floor(count / 10) % 2 === 0;
 
+    const isSameAsLastPicked = (item) => {
+      if (!lastPickedItemRef.current) return false;
+      const sameWord = item.word.trim().toLowerCase() === lastPickedItemRef.current.word.trim().toLowerCase();
+      const sameTranslation = item.translation.trim().toLowerCase() === lastPickedItemRef.current.translation.trim().toLowerCase();
+      return sameWord || sameTranslation;
+    };
+
+    const isOnCooldown = (item) => {
+      const cooldownUntil = cooldownUntilRef.current.get(item.word.trim().toLowerCase()) || 0;
+      return count < cooldownUntil;
+    };
+
     // Check if any previously missed word is scheduled for repetition at or before this count
-    const dueIdx = retryQueueRef.current.findIndex((entry) => entry.dueAt <= count);
+    const dueIdx = retryQueueRef.current.findIndex(
+      (entry) => entry.dueAt <= count && !isSameAsLastPicked(entry.item)
+    );
 
     let correctItem = null;
     let previousDistractorWords = [];
@@ -110,18 +126,29 @@ function App() {
       const chosenCategory = categories[Math.floor(Math.random() * categories.length)] || 'word';
       const categoryPool = vocab.filter((item) => normalizeCategory(item.category) === chosenCategory);
 
-      let availableVocab = categoryPool;
-      if (currentQuestionRef.current && availableVocab.length > 1) {
-        availableVocab = availableVocab.filter((x) => x.word !== currentQuestionRef.current.word);
-      }
-      if (availableVocab.length === 0) {
-        availableVocab = vocab;
+      // Filter category pool avoiding last picked item and cooldown items
+      let candidates = categoryPool.filter((x) => !isSameAsLastPicked(x) && !isOnCooldown(x));
+
+      // If chosen category has no available items outside cooldown, look across all vocab
+      if (candidates.length === 0) {
+        candidates = vocab.filter((x) => !isSameAsLastPicked(x) && !isOnCooldown(x));
       }
 
-      const correctIdx = Math.floor(Math.random() * availableVocab.length);
-      correctItem = availableVocab[correctIdx];
+      // Fallback: if everything is on cooldown, at least avoid the immediate last picked item
+      if (candidates.length === 0) {
+        candidates = vocab.filter((x) => !isSameAsLastPicked(x));
+      }
+
+      if (candidates.length === 0) {
+        candidates = vocab;
+      }
+
+      const correctIdx = Math.floor(Math.random() * candidates.length);
+      correctItem = candidates[correctIdx];
       currentCategory = normalizeCategory(correctItem.category);
     }
+
+    lastPickedItemRef.current = correctItem;
 
     const pool = vocab.filter((x) => normalizeCategory(x.category) === currentCategory && x.word !== correctItem.word);
 
@@ -208,9 +235,14 @@ function App() {
         speakFrench(choice.text);
       }
 
-      // Scoring logic
+      // Scoring & cooldown logic
       if (!hasFailedThisTurn) {
         setScore((s) => s + 1);
+        // Correct on first try: do not present this word again for the next 10 items
+        if (currentQuestionRef.current) {
+          const key = currentQuestionRef.current.word.trim().toLowerCase();
+          cooldownUntilRef.current.set(key, count + 11);
+        }
       }
       setTotalAnswered((t) => t + 1);
 
@@ -262,6 +294,8 @@ function App() {
 
   const handleRestart = () => {
     retryQueueRef.current = [];
+    cooldownUntilRef.current.clear();
+    lastPickedItemRef.current = null;
     currentQuestionDistractorsRef.current = [];
     currentQuestionRef.current = null;
     questionCountRef.current = 0;
