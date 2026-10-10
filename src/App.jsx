@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import CategoryModal from './CategoryModal';
+import { parseItemCategories } from './categoryUtils';
 
 function App() {
   const [vocab, setVocab] = useState([]);
@@ -9,6 +11,9 @@ function App() {
   const [score, setScore] = useState(0);
   const [totalAnswered, setTotalAnswered] = useState(0);
   const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState(new Set());
+  const selectedCategoriesRef = useRef(new Set());
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [questionCount, setQuestionCount] = useState(0);
   const questionCountRef = useRef(0);
@@ -20,11 +25,6 @@ function App() {
   const hasInitializedRef = useRef(false);
   const [isSoundEnabled, setIsSoundEnabled] = useState(false);
   const isSoundEnabledRef = useRef(false);
-
-  const normalizeCategory = (value) => {
-    const category = typeof value === 'string' ? value.trim().toLowerCase() : 'word';
-    return category || 'word';
-  };
 
   const toggleSound = (e) => {
     if (e) {
@@ -71,6 +71,24 @@ function App() {
     }
   }, []);
 
+  // Derive category counts and unique categories
+  const categoryCounts = useMemo(() => {
+    const counts = {};
+    vocab.forEach((item) => {
+      const cats = parseItemCategories(item);
+      cats.forEach((cat) => {
+        counts[cat] = (counts[cat] || 0) + 1;
+      });
+    });
+    return counts;
+  }, [vocab]);
+
+  const allCategories = useMemo(() => {
+    return Object.keys(categoryCounts).sort();
+  }, [categoryCounts]);
+
+  const isFiltered = selectedCategories.size > 0 && selectedCategories.size < allCategories.length;
+
   // Load vocab configuration
   useEffect(() => {
     const basePath = import.meta.env.BASE_URL || './';
@@ -82,6 +100,12 @@ function App() {
       })
       .then((data) => {
         setVocab(data);
+        const initialCats = new Set();
+        data.forEach((item) => {
+          parseItemCategories(item).forEach((c) => initialCats.add(c));
+        });
+        setSelectedCategories(initialCats);
+        selectedCategoriesRef.current = initialCats;
       })
       .catch((err) => console.error('Failed to load vocabulary config:', err));
   }, []);
@@ -106,9 +130,19 @@ function App() {
       return count < cooldownUntil;
     };
 
+    const activeCats = selectedCategoriesRef.current;
+    const eligibleVocab = vocab.filter((item) => {
+      const itemCats = parseItemCategories(item);
+      return itemCats.some((c) => activeCats.has(c));
+    });
+    const effectiveVocab = eligibleVocab.length > 0 ? eligibleVocab : vocab;
+
     // Check if any previously missed word is scheduled for repetition at or before this count
     const dueIdx = retryQueueRef.current.findIndex(
-      (entry) => entry.dueAt <= count && !isSameAsLastPicked(entry.item)
+      (entry) =>
+        entry.dueAt <= count &&
+        !isSameAsLastPicked(entry.item) &&
+        parseItemCategories(entry.item).some((c) => activeCats.has(c))
     );
 
     let correctItem = null;
@@ -120,41 +154,68 @@ function App() {
       const [dueEntry] = retryQueueRef.current.splice(dueIdx, 1);
       correctItem = dueEntry.item;
       previousDistractorWords = dueEntry.previousDistractorWords || [];
-      currentCategory = normalizeCategory(correctItem.category);
+      const itemCats = parseItemCategories(correctItem);
+      currentCategory = itemCats.find((c) => activeCats.has(c)) || itemCats[0] || 'word';
     } else {
-      const categories = [...new Set(vocab.map((item) => normalizeCategory(item.category)))];
-      const chosenCategory = categories[Math.floor(Math.random() * categories.length)] || 'word';
-      const categoryPool = vocab.filter((item) => normalizeCategory(item.category) === chosenCategory);
+      const activeCategoriesWithItems = Array.from(activeCats).filter((cat) =>
+        effectiveVocab.some((item) => parseItemCategories(item).includes(cat))
+      );
+      const chosenCategory =
+        activeCategoriesWithItems.length > 0
+          ? activeCategoriesWithItems[Math.floor(Math.random() * activeCategoriesWithItems.length)]
+          : 'word';
+
+      const categoryPool = effectiveVocab.filter((item) =>
+        parseItemCategories(item).includes(chosenCategory)
+      );
 
       // Filter category pool avoiding last picked item and cooldown items
       let candidates = categoryPool.filter((x) => !isSameAsLastPicked(x) && !isOnCooldown(x));
 
-      // If chosen category has no available items outside cooldown, look across all vocab
+      // If chosen category has no available items outside cooldown, look across all effectiveVocab
       if (candidates.length === 0) {
-        candidates = vocab.filter((x) => !isSameAsLastPicked(x) && !isOnCooldown(x));
+        candidates = effectiveVocab.filter((x) => !isSameAsLastPicked(x) && !isOnCooldown(x));
       }
 
       // Fallback: if everything is on cooldown, at least avoid the immediate last picked item
       if (candidates.length === 0) {
-        candidates = vocab.filter((x) => !isSameAsLastPicked(x));
+        candidates = effectiveVocab.filter((x) => !isSameAsLastPicked(x));
       }
 
       if (candidates.length === 0) {
-        candidates = vocab;
+        candidates = effectiveVocab;
       }
 
       const correctIdx = Math.floor(Math.random() * candidates.length);
       correctItem = candidates[correctIdx];
-      currentCategory = normalizeCategory(correctItem.category);
+      currentCategory = chosenCategory;
     }
 
     lastPickedItemRef.current = correctItem;
 
-    const pool = vocab.filter((x) => normalizeCategory(x.category) === currentCategory && x.word !== correctItem.word);
+    const pool = effectiveVocab.filter(
+      (x) => parseItemCategories(x).includes(currentCategory) && x.word !== correctItem.word
+    );
 
     // Filter out previous distractors so a DIFFERENT set of alternate answers is presented
     const freshPool = pool.filter((x) => !previousDistractorWords.includes(x.word));
-    const distractorCandidates = freshPool.length >= 3 ? freshPool : pool;
+    let distractorCandidates = freshPool.length >= 3 ? freshPool : pool;
+
+    if (distractorCandidates.length < 3) {
+      const otherEligible = effectiveVocab.filter((x) => x.word !== correctItem.word);
+      distractorCandidates = [
+        ...distractorCandidates,
+        ...otherEligible.filter((x) => !distractorCandidates.some((d) => d.word === x.word)),
+      ];
+    }
+
+    if (distractorCandidates.length < 3) {
+      const otherVocab = vocab.filter((x) => x.word !== correctItem.word);
+      distractorCandidates = [
+        ...distractorCandidates,
+        ...otherVocab.filter((x) => !distractorCandidates.some((d) => d.word === x.word)),
+      ];
+    }
 
     const incorrectItems = [];
     const poolCopy = [...distractorCandidates];
@@ -327,6 +388,20 @@ function App() {
     }
   };
 
+  const handleApplyCategories = (newSelected) => {
+    setSelectedCategories(newSelected);
+    selectedCategoriesRef.current = newSelected;
+
+    const currentItem = currentQuestionRef.current;
+    const isCurrentValid =
+      currentItem &&
+      parseItemCategories(currentItem).some((c) => newSelected.has(c));
+
+    if (!isCurrentValid) {
+      nextQuestion();
+    }
+  };
+
   const successRate = totalAnswered > 0 ? Math.round((score / totalAnswered) * 100) : 0;
   const isFrenchPrompt = Math.floor(questionCount / 10) % 2 === 0;
   const roundProgress = (questionCount % 10) + 1;
@@ -356,10 +431,22 @@ function App() {
           <h1>Lingo.Next</h1>
           <span className="mode-indicator">
             {isFrenchPrompt ? '🇫🇷 ➔ 🇬🇧' : '🇬🇧 ➔ 🇫🇷'} ({roundProgress}/10)
+            {isFiltered ? ` • ${selectedCategories.size} cat.` : ''}
           </span>
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           <button
+            type="button"
+            className="category-toggle-button"
+            onClick={() => setIsCategoryModalOpen(true)}
+            title="Catégories / Edit Categories"
+            aria-label="Catégories / Edit Categories"
+          >
+            🏷️
+            {isFiltered && <span className="category-active-dot" />}
+          </button>
+          <button
+            type="button"
             className="sound-toggle-button"
             onClick={toggleSound}
             title={isSoundEnabled ? 'Mute audio' : 'Enable audio'}
@@ -367,7 +454,13 @@ function App() {
           >
             {isSoundEnabled ? '🔊' : '🔇'}
           </button>
-          <button className="reload-vocab-button" onClick={handleForceReload} title="Force Reload Vocab">
+          <button
+            type="button"
+            className="reload-vocab-button"
+            onClick={handleForceReload}
+            title="Force Reload Vocab"
+            aria-label="Force Reload Vocab"
+          >
             🔄
           </button>
           <div className="score-badge">
@@ -454,6 +547,18 @@ function App() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Category selection modal */}
+      {isCategoryModalOpen && (
+        <CategoryModal
+          onClose={() => setIsCategoryModalOpen(false)}
+          allCategories={allCategories}
+          categoryCounts={categoryCounts}
+          selectedCategories={selectedCategories}
+          onApply={handleApplyCategories}
+          vocab={vocab}
+        />
       )}
     </div>
   );

@@ -1,8 +1,8 @@
 [
-  {
-    "word": "nom",
-    "translation": "name",
-    "category": "word"
+   {
+    "word": "c'est le dix octobre",
+    "translation": "it is Octobre ninth",
+    "category": "phrase"
   },
   {
     "word": "madame",
@@ -22,17 +22,12 @@
   {
     "word": "de même",
     "translation": "likewise",
-    "category": "word"
+    "category": "word, greeting"
   },
   {
     "word": "enchantée",
     "translation": "delighted to see you (female)",
     "category": "greeting"
-  },
-  {
-    "word": "comment",
-    "translation": "how",
-    "category": "word"
   },
   {
     "word": "prénom",
@@ -50,14 +45,9 @@
     "category": "honorifics"
   },
   {
-    "word": "comment t'appelles tu",
-    "translation": "What is your name",
+    "word": "et vous",
+    "translation": "and you (formal)",
     "category": "phrase"
-  },
-  {
-    "word": "et toi",
-    "translation": "and you",
-    "category": "word"
   },
   {
     "word": "j'ai treize ans",
@@ -67,7 +57,7 @@
   {
     "word": "Françias",
     "translation": "French",
-    "category": "country"
+    "category": "country, class"
   },
   {
     "word": "américaine",
@@ -105,24 +95,29 @@
     "category": "word"
   },
   {
-    "word": "sept",
-    "translation": "seven",
-    "category": "word"
-  },
-  {
     "word": "merci",
     "translation": "thank you",
     "category": "word"
   },
   {
-    "word": "c'est le cinq octobre",
-    "translation": "it is Octobre fifth",
-    "category": "phrase"
+    "word": "si'l vous plait",
+    "translation": "please",
+    "category": "word"
   },
   {
     "word": "à bientot",
     "translation": "goodbye",
     "category": "greeting"
+  },
+  {
+    "word": "à tout à l'heure",
+    "translation": "see you later",
+    "category": "greeting"
+  },
+  {
+    "word": "pas mal",
+    "translation": "not bad",
+    "category": "word"
   },
   {
     "word": "ça va",
@@ -137,11 +132,6 @@
   {
     "word": "et",
     "translation": "and",
-    "category": "word"
-  },
-  {
-    "word": "pourtant",
-    "translation": "however",
     "category": "word"
   },
   {
@@ -266,19 +256,29 @@
     "category": "greeting"
   },
   {
-    "word": "J'ai une fille",
+    "word": "j'ai une fille",
     "translation": "I have a daughter",
-    "category": "phrase"
+    "category": "family phrase"
   },
   {
-    "word": "J'ai une sœur",
+    "word": "j'ai une sœur",
     "translation": "I have a sister",
-    "category": "phrase"
+    "category": "family phrase"
   },
   {
-    "word": "Tu es un neveu",
+    "word": "tu es un neveu",
     "translation": "You have a nephew",
-    "category": "phrase"
+    "category": "family phrase"
+  },
+  {
+    "word": "j'ai une mère",
+    "translation": "I have a mother",
+    "category": "family phrase"
+  },
+  {
+    "word": "j'ai un père",
+    "translation": "I have a father",
+    "category": "family phrase"
   },
   {
     "word": "mère",
@@ -351,6 +351,11 @@
     "category": "words"
   },
   {
+    "word": "ou",
+    "translation": "or",
+    "category": "words"
+  },
+  {
     "word": "garçon",
     "translation": "boy",
     "category": "words"
@@ -363,7 +368,7 @@
   {
     "word": "un cours",
     "translation": "a class",
-    "category": "class"
+    "category": "class, word"
   },
   {
     "word": "je ne sais pas",
@@ -373,7 +378,7 @@
   {
     "word": "étudie",
     "translation": "study",
-    "category": "class"
+    "category": "class, word"
   },
   {
     "word": "merci beacoup",
@@ -422,8 +427,13 @@
   },
   {
     "word": "ami",
-    "translation": "friend",
-    "category": "words"
+    "translation": "friend (male)",
+    "category": "word"
+  },
+  {
+    "word": "amie",
+    "translation": "friend (female)",
+    "category": "word"
   },
   {
     "word": "un carte",
@@ -433,7 +443,7 @@
  {
     "word": "des",
     "translation": "some",
-    "category": "words"
+    "category": "word"
   },
   {
     "word": "un livre",
@@ -443,7 +453,7 @@
   {
     "word": "chat",
     "translation": "cat",
-    "category": "words"
+    "category": "word"
   },
   {
     "word": "un élève",
@@ -506,11 +516,6 @@
     "category": "object"
   },
   {
-    "word": "si'l vous plait",
-    "translation": "please (formal)",
-    "category": "phrase"
-  },
-  {
     "word": "un calculatrice",
     "translation": "a calculator",
     "category": "object"
@@ -523,7 +528,7 @@
   {
     "word": "faites",
     "translation": "do",
-    "category": "words"
+    "category": "word"
   },
   {
     "word": "médecin",
@@ -589,6 +594,115 @@
     "word": "un chaise",
     "translation": "chair",
     "category": "object"
+  },
+  {
+    "word": "l'objet",
+    "translation": "the object (male)",
+    "category": "object, word"
+  },
+  {
+    "word": "l'examen",
+    "translation": "the exam (male)",
+    "category": "class, word"
+  },
+  {
+    "word": "problème",
+    "translation": "problem (male)",
+    "category": "word"
+  },
+  {
+    "word": "portable",
+    "translation": "phone (male)",
+    "category": "object"
+  },
+  {
+    "word": "la chose",
+    "translation": "the thing",
+    "category": "word"
+  },
+  {
+    "word": "littérature",
+    "translation": "literature",
+    "category": "word"
+  },
+  {
+    "word": "acteur",
+    "translation": "actor",
+    "category": "person"
+  },
+  {
+    "word": "actrice",
+    "translation": "actress",
+    "category": "person"
+  },
+  {
+    "word": "chanteur",
+    "translation": "singer (male)",
+    "category": "person"
+  },
+  {
+    "word": "chanteuse",
+    "translation": "singer (female)",
+    "category": "person"
+  },
+  {
+    "word": "l'école",
+    "translation": "the school",
+    "category": "location"
+  },
+  {
+    "word": "bibliothèque",
+    "translation": "library (female)",
+    "category": "location"
+  },
+  {
+    "word": "lycée",
+    "translation": "high school (male)",
+    "category": "location"
+  },
+  {
+    "word": "collège",
+    "translation": "middle school",
+    "category": "location"
+  },
+  {
+    "word": "librairie",
+    "translation": "bookstore",
+    "category": "location"
+  },
+  {
+    "word": "université",
+    "translation": "college",
+    "category": "location"
+  },
+  {
+    "word": "cantine",
+    "translation": "cafeteria (female)",
+    "category": "location"
+  },
+  {
+    "word": "devoir",
+    "translation": "homework",
+    "category": "class, word"
+  },
+  {
+    "word": "télévision",
+    "translation": "television",
+    "category": "object"
+  },
+  {
+    "word": "étudiante",
+    "translation": "student (female)",
+    "category": "person"
+  },
+  {
+    "word": "étudiant",
+    "translation": "student (male)",
+    "category": "person"
+  },
+  {
+    "word": "professeur",
+    "translation": "profesure",
+    "category": "person"
   }
 ]
-
