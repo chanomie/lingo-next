@@ -1,7 +1,17 @@
 export const parseItemCategories = (item) => {
   if (!item || !item.category) return ['word'];
-  const raw = typeof item.category === 'string' ? item.category : '';
-  const parts = raw.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+  let parts = [];
+  if (Array.isArray(item.category)) {
+    parts = item.category
+      .flatMap((c) => (typeof c === 'string' ? c.split(',') : []))
+      .map((s) => s.trim().toLowerCase())
+      .filter(Boolean);
+  } else if (typeof item.category === 'string') {
+    parts = item.category
+      .split(',')
+      .map((s) => s.trim().toLowerCase())
+      .filter(Boolean);
+  }
   if (parts.length === 0) return ['word'];
   return parts.map((c) => (c === 'words' ? 'word' : c));
 };
