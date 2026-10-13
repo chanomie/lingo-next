@@ -63,6 +63,61 @@ function CategoryModal({
   const isAllSelected = tempSelected.size === allCategories.length;
   const isNoneSelected = tempSelected.size === 0;
 
+  const { pinnedCategories, remainingCategories } = useMemo(() => {
+    const pinnedOrder = ['word', 'phrase'];
+    const pinned = [];
+    const remaining = [];
+
+    // Pin 'word' and 'phrase' in that order
+    pinnedOrder.forEach((pinKey) => {
+      const match = allCategories.find((cat) => cat.toLowerCase() === pinKey);
+      if (match) {
+        pinned.push(match);
+      }
+    });
+
+    // Remaining categories in alphabetical order
+    allCategories.forEach((cat) => {
+      if (!pinnedOrder.includes(cat.toLowerCase())) {
+        remaining.push(cat);
+      }
+    });
+
+    remaining.sort((a, b) => a.localeCompare(b));
+
+    return { pinnedCategories: pinned, remainingCategories: remaining };
+  }, [allCategories]);
+
+  const renderCategoryItem = (cat) => {
+    const isSelected = tempSelected.has(cat);
+    const count = categoryCounts[cat] || 0;
+    const icon = getCategoryIcon(cat);
+
+    return (
+      <button
+        type="button"
+        key={cat}
+        className={`category-item-btn ${isSelected ? 'selected' : 'unselected'}`}
+        onClick={() => handleToggle(cat)}
+        aria-pressed={isSelected}
+      >
+        <div className="category-item-left">
+          <span className="category-item-icon">{icon}</span>
+          <div className="category-item-text">
+            <span className="category-item-name">{formatCategoryName(cat)}</span>
+            <span className="category-item-count">
+              {count} {count === 1 ? 'mot' : 'mots'}
+            </span>
+          </div>
+        </div>
+
+        <div className={`category-checkbox ${isSelected ? 'checked' : ''}`}>
+          {isSelected ? '✓' : ''}
+        </div>
+      </button>
+    );
+  };
+
   return (
     <div className="overlay category-modal-overlay" onClick={onClose}>
       <div
@@ -113,35 +168,11 @@ function CategoryModal({
 
         {/* List of categories */}
         <div className="category-list">
-          {allCategories.map((cat) => {
-            const isSelected = tempSelected.has(cat);
-            const count = categoryCounts[cat] || 0;
-            const icon = getCategoryIcon(cat);
-
-            return (
-              <button
-                type="button"
-                key={cat}
-                className={`category-item-btn ${isSelected ? 'selected' : 'unselected'}`}
-                onClick={() => handleToggle(cat)}
-                aria-pressed={isSelected}
-              >
-                <div className="category-item-left">
-                  <span className="category-item-icon">{icon}</span>
-                  <div className="category-item-text">
-                    <span className="category-item-name">{formatCategoryName(cat)}</span>
-                    <span className="category-item-count">
-                      {count} {count === 1 ? 'mot' : 'mots'}
-                    </span>
-                  </div>
-                </div>
-
-                <div className={`category-checkbox ${isSelected ? 'checked' : ''}`}>
-                  {isSelected ? '✓' : ''}
-                </div>
-              </button>
-            );
-          })}
+          {pinnedCategories.map((cat) => renderCategoryItem(cat))}
+          {pinnedCategories.length > 0 && remainingCategories.length > 0 && (
+            <div className="category-separator" role="separator" />
+          )}
+          {remainingCategories.map((cat) => renderCategoryItem(cat))}
         </div>
 
         {/* Footer info & Apply button */}

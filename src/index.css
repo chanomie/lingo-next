@@ -571,6 +571,21 @@ body {
   background: rgba(255, 255, 255, 0.25);
 }
 
+.category-separator {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.02) 0%,
+    rgba(255, 255, 255, 0.16) 20%,
+    rgba(168, 85, 247, 0.4) 50%,
+    rgba(255, 255, 255, 0.16) 80%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  margin: 4px 6px;
+  border: 0;
+  flex-shrink: 0;
+}
+
 .category-item-btn {
   display: flex;
   align-items: center;

@@ -1,7 +1,7 @@
 [
    {
-    "word": "c'est le dix octobre",
-    "translation": "it is Octobre ninth",
+    "word": "c'est le douze octobre",
+    "translation": "it is Octobre twelve",
     "category": "phrase"
   },
   {
@@ -72,12 +72,12 @@
   {
     "word": "un drapeau",
     "translation": "a flag",
-    "category": "country"
+    "category": "country, word"
   },
   {
     "word": "un pays",
     "translation": "a country",
-    "category": "country"
+    "category": "country, location"
   },
   {
     "word": "oui",
@@ -367,13 +367,8 @@
   },
   {
     "word": "un cours",
-    "translation": "a class",
+    "translation": "a class/course",
     "category": "class, word"
-  },
-  {
-    "word": "je ne sais pas",
-    "translation": "I don't know",
-    "category": "phrase"
   },
   {
     "word": "étudie",
@@ -703,6 +698,116 @@
   {
     "word": "professeur",
     "translation": "profesure",
-    "category": "person"
-  }
+    "category": "person, honorifics"
+  },
+  {
+    "word": "une fenêtre",
+    "translation": "window",
+    "category": "object"
+  },
+  {
+    "word": "bon",
+    "translation": "good",
+    "category": "temperature"
+  },
+  {
+    "word": "beau",
+    "translation": "beautiful",
+    "category": "temperature"
+  },
+  {
+    "word": "chaud",
+    "translation": "hot",
+    "category": "temperature"
+  },
+  {
+    "word": "frais",
+    "translation": "cool",
+    "category": "temperature"
+  },
+  {
+    "word": "froid",
+    "translation": "cold",
+    "category": "temperature"
+  },
+  {
+    "word": "du vent",
+    "translation": "windy",
+    "category": "temperature"
+  },
+  {
+    "word": "il pleut",
+    "translation": "it's raining",
+    "category": "temperature"
+  },
+  {
+    "word": "une capitale",
+    "translation": "capital city",
+    "category": "country"
+  },
+  {
+    "word": "j'ai",
+    "translation": "I have",
+    "category": "phrase"
+  },
+  {
+    "word": "tu es de quelle nationalité",
+    "translation": "what is your nationality",
+    "category": "phrase"
+  },
+  {
+    "word": "vous comprenez",
+    "translation": "do you understand",
+    "category": "phrase"
+  },
+  {
+    "word": "excusez-moi",
+    "translation": "excuse me",
+    "category": "phrase"
+  },
+  {
+    "word": "je ne sais pas",
+    "translation": "I don't know",
+    "category": "phrase"
+  },
+  {
+    "word": "aujourd'hui",
+    "translation": "today",
+    "category": "day"
+  },
+  {
+    "word": "hier",
+    "translation": "yesterday",
+    "category": "day"
+  },
+  {
+    "word": "demain",
+    "translation": "tomorrow",
+    "category": "day"
+  },
+  {
+    "word": "après-demain",
+    "translation": "the day after tomorrow",
+    "category": "day"
+  },
+  {
+    "word": "matin",
+    "translation": "morning",
+    "category": "day"
+  },
+  {
+    "word": "après-midi",
+    "translation": "afternoon",
+    "category": "day"
+  },
+  {
+    "word": "soir",
+    "translation": "evening",
+    "category": "day"
+  },
+  {
+    "word": "déjeuner",
+    "translation": "lunch",
+    "category": "day"
+  },
 ]
