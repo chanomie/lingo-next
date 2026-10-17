@@ -1,7 +1,7 @@
 [
    {
-    "word": "c'est le treize octobre",
-    "translation": "it is Octobre thirteenth",
+    "word": "c'est le seize octobre",
+    "translation": "it is Octobre sixteenth",
     "category": "phrase"
   },
   {
@@ -31,7 +31,7 @@
   },
   {
     "word": "prénom",
-    "translation": "first name",
+    "translation": "first name (male)",
     "category": "word"
   },
   {
@@ -55,7 +55,7 @@
     "category": "phrase"
   },
   {
-    "word": "Françias",
+    "word": "françias",
     "translation": "French",
     "category": "country, class"
   },
@@ -125,7 +125,7 @@
     "category": "word"
   },
   {
-    "word": "comme ci, comme ça",
+    "word": "comme ci comme ça",
     "translation": "so so",
     "category": "phrase"
   },
@@ -372,7 +372,7 @@
   },
   {
     "word": "un cours",
-    "translation": "a class/course",
+    "translation": "a class, course",
     "category": "class, word"
   },
   {
@@ -421,7 +421,7 @@
     "category": "class"
   },
   {
-    "word": "un ordinateur",
+    "word": "un ordinateur (male)",
     "translation": "a computer",
     "category": "object"
   },
@@ -436,8 +436,8 @@
     "category": "person"
   },
   {
-    "word": "un carte",
-    "translation": "a map",
+    "word": "une carte",
+    "translation": "a map (female)",
     "category": "object"
   },
  {
@@ -447,7 +447,7 @@
   },
   {
     "word": "un livre",
-    "translation": "a book",
+    "translation": "a book (male)",
     "category": "object"
   },
   {
@@ -462,7 +462,7 @@
   },
   {
     "word": "un dictonnaire",
-    "translation": "a dictionary",
+    "translation": "a dictionary (male)",
     "category": "object"
   },
   {
@@ -497,32 +497,32 @@
   },
   {
     "word": "un cahier",
-    "translation": "a notebook",
+    "translation": "a notebook (male)",
     "category": "object"
   },
   {
-    "word": "un tablette",
-    "translation": "a tablet",
+    "word": "une tablette",
+    "translation": "a tablet (female)",
     "category": "object"
   },
   {
     "word": "un stylo",
-    "translation": "a pen",
+    "translation": "a pen (male)",
     "category": "object"
   },
   {
     "word": "un crayon",
-    "translation": "a pencil",
+    "translation": "a pencil (male)",
     "category": "object"
   },
   {
     "word": "un calculatrice",
-    "translation": "a calculator",
+    "translation": "a calculator (female)",
     "category": "object"
   },
   {
     "word": "un tableau",
-    "translation": "a white board",
+    "translation": "a board/a painting (male)",
     "category": "object"
   },
   {
@@ -584,6 +584,10 @@
     "word": "arrêtez",
     "translation": "to stop",
     "category": "command"
+  },  {
+    "word": "boire",
+    "translation": "to drink",
+    "category": "command"
   },
   {
     "word": "la chime",
@@ -591,8 +595,8 @@
     "category": "class"
   },
   {
-    "word": "un chaise",
-    "translation": "chair",
+    "word": "une chaise",
+    "translation": "a chair (female)",
     "category": "object"
   },
   {
@@ -611,8 +615,8 @@
     "category": "word"
   },
   {
-    "word": "portable",
-    "translation": "phone (male)",
+    "word": "un portable",
+    "translation": "a phone (male)",
     "category": "object"
   },
   {
@@ -707,7 +711,7 @@
   },
   {
     "word": "une fenêtre",
-    "translation": "window",
+    "translation": "a window (female)",
     "category": "object"
   },
   {
@@ -821,6 +825,11 @@
     "category": "phrase"
   },
   {
+    "word": "il n'y a",
+    "translation": "there is not",
+    "category": "phrase"
+  },
+  {
     "word": "bonne journée",
     "translation": "have a good day",
     "category": "greeting"
@@ -837,7 +846,7 @@
   },
   {
     "word": "une gomme",
-    "translation": "an eraser",
+    "translation": "an eraser (female)",
     "category": "object"
   },
   {
@@ -846,9 +855,9 @@
     "category": "word"
   },
   {
-    "word": "combien",
+    "word": "combien de",
     "translation": "how much/many",
-    "category": "word"
+    "category": "phrase"
   },
   {
     "word": "qui est-ce",
@@ -859,11 +868,6 @@
     "word": "qu'est-ce que c'est",
     "translation": "what is it",
     "category": "phrase"
-  },
-  {
-    "word": "une carte",
-    "translation": "a map (female)",
-    "category": "object"
   },
   {
     "word": "une trousse",
@@ -889,5 +893,170 @@
     "word": "comment écrit-on",
     "translation": "how do you write",
     "category": "phrase"
+  },
+  {
+    "word": "soixante",
+    "translation": "sixty",
+    "category": "word"
+  },
+  {
+    "word": "cinquante",
+    "translation": "fifty",
+    "category": "word"
+  },
+  {
+    "word": "quarante",
+    "translation": "forty",
+    "category": "word"
+  },
+  {
+    "word": "plus",
+    "translation": "plus",
+    "category": "math symbol"
+  },
+  {
+    "word": "moins",
+    "translation": "minus",
+    "category": "math symbol"
+  },
+  {
+    "word": "fois",
+    "translation": "multiply",
+    "category": "math symbol"
+  },
+  {
+    "word": "divisé",
+    "translation": "divide",
+    "category": "math symbol"
+  },
+  {
+    "word": "égale",
+    "translation": "equals",
+    "category": "math symbol"
+  },
+  {
+    "word": "un trombone",
+    "translation": "a paper clip (male)",
+    "category": "object"
+  },
+  {
+    "word": "un sac à dos",
+    "translation": "a backpack (male)",
+    "category": "object"
+  },
+  {
+    "word": "un ciseau",
+    "translation": "a scissor (male)",
+    "category": "object"
+  },
+  {
+    "word": "une porte",
+    "translation": "a door (femle)",
+    "category": "object"
+  },
+  {
+    "word": "une agrafeuse",
+    "translation": "stapler (female)",
+    "category": "object"
+  },
+  {
+    "word": "une regle",
+    "translation": "a ruler (female)",
+    "category": "object"
+  },
+  {
+    "word": "un velo",
+    "translation": "a bike (male)",
+    "category": "object"
+  },
+  {
+    "word": "couleurs",
+    "translation": "colors",
+    "category": "color, word"
+  },
+  {
+    "word": "rose",
+    "translation": "pink",
+    "category": "color"
+  },
+  {
+    "word": "rouge",
+    "translation": "red",
+    "category": "color"
+  },
+  {
+    "word": "orange",
+    "translation": "orange",
+    "category": "color"
+  },
+  {
+    "word": "jaune",
+    "translation": "yellow",
+    "category": "color"
+  },
+  {
+    "word": "vert",
+    "translation": "green (male)",
+    "category": "color"
+  },
+  {
+    "word": "verte",
+    "translation": "green (female)",
+    "category": "color"
+  },
+  {
+    "word": "bleu",
+    "translation": "blue (male)",
+    "category": "color"
+  },
+  {
+    "word": "bleue",
+    "translation": "blue (female)",
+    "category": "color"
+  },
+  {
+    "word": "violet",
+    "translation": "pruple (male)",
+    "category": "color"
+  },
+  {
+    "word": "violette",
+    "translation": "purple (female)",
+    "category": "color"
+  },
+  {
+    "word": "noir",
+    "translation": "black (male)",
+    "category": "color"
+  },
+  {
+    "word": "noire",
+    "translation": "black (female)",
+    "category": "color"
+  },
+  {
+    "word": "blan",
+    "translation": "white (male)",
+    "category": "color"
+  },
+  {
+    "word": "blanche",
+    "translation": "white (female)",
+    "category": "color"
+  },
+  {
+    "word": "marron, brun",
+    "translation": "brown",
+    "category": "color"
+  },
+  {
+    "word": "gris",
+    "translation": "gray (male)",
+    "category": "color"
+  },
+  {
+    "word": "grise",
+    "translation": "gray (female)",
+    "category": "color"
   }
 ]

@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import CategoryModal from './CategoryModal';
-import { parseItemCategories } from './categoryUtils';
+import {
+  parseItemCategories,
+  parseCommaSeparated,
+  hasOverlap,
+  isItemEquivalent,
+} from './categoryUtils';
 
 function App() {
   const [vocab, setVocab] = useState([]);
@@ -43,7 +48,11 @@ function App() {
         const count = questionCountRef.current;
         const isFrenchPrompt = Math.floor(count / 10) % 2 === 0;
         if (isFrenchPrompt && currentQuestionRef.current) {
-          speakFrench(currentQuestionRef.current.word, true);
+          const frenchText =
+            currentQuestionRef.current.spokenFrench ||
+            currentQuestionRef.current.promptText ||
+            currentQuestionRef.current.word;
+          speakFrench(frenchText, true);
         }
       }
       return next;
@@ -120,14 +129,15 @@ function App() {
 
     const isSameAsLastPicked = (item) => {
       if (!lastPickedItemRef.current) return false;
-      const sameWord = item.word.trim().toLowerCase() === lastPickedItemRef.current.word.trim().toLowerCase();
-      const sameTranslation = item.translation.trim().toLowerCase() === lastPickedItemRef.current.translation.trim().toLowerCase();
-      return sameWord || sameTranslation;
+      return isItemEquivalent(item, lastPickedItemRef.current);
     };
 
     const isOnCooldown = (item) => {
-      const cooldownUntil = cooldownUntilRef.current.get(item.word.trim().toLowerCase()) || 0;
-      return count < cooldownUntil;
+      const words = parseCommaSeparated(item.word);
+      return words.some((w) => {
+        const cooldownUntil = cooldownUntilRef.current.get(w.toLowerCase().trim()) || 0;
+        return count < cooldownUntil;
+      });
     };
 
     const activeCats = selectedCategoriesRef.current;
@@ -194,81 +204,163 @@ function App() {
     lastPickedItemRef.current = correctItem;
 
     const pool = effectiveVocab.filter(
-      (x) => parseItemCategories(x).includes(currentCategory) && x.word !== correctItem.word
+      (x) => parseItemCategories(x).includes(currentCategory) && !isItemEquivalent(x, correctItem)
     );
 
     // Filter out previous distractors so a DIFFERENT set of alternate answers is presented
-    const freshPool = pool.filter((x) => !previousDistractorWords.includes(x.word));
+    const freshPool = pool.filter(
+      (x) => !previousDistractorWords.some((pw) => hasOverlap(parseCommaSeparated(x.word), [pw]))
+    );
     let distractorCandidates = freshPool.length >= 3 ? freshPool : pool;
 
     if (distractorCandidates.length < 3) {
-      const otherEligible = effectiveVocab.filter((x) => x.word !== correctItem.word);
+      const otherEligible = effectiveVocab.filter((x) => !isItemEquivalent(x, correctItem));
       distractorCandidates = [
         ...distractorCandidates,
-        ...otherEligible.filter((x) => !distractorCandidates.some((d) => d.word === x.word)),
+        ...otherEligible.filter((x) => !distractorCandidates.some((d) => isItemEquivalent(d, x))),
       ];
     }
 
     if (distractorCandidates.length < 3) {
-      const otherVocab = vocab.filter((x) => x.word !== correctItem.word);
+      const otherVocab = vocab.filter((x) => !isItemEquivalent(x, correctItem));
       distractorCandidates = [
         ...distractorCandidates,
-        ...otherVocab.filter((x) => !distractorCandidates.some((d) => d.word === x.word)),
+        ...otherVocab.filter((x) => !distractorCandidates.some((d) => isItemEquivalent(d, x))),
       ];
     }
 
-    const incorrectItems = [];
-    const poolCopy = [...distractorCandidates];
+    // Determine correct representation (text translation or picture if exists)
+    const correctWordOptions = parseCommaSeparated(correctItem.word);
+    const correctTranslationOptions = parseCommaSeparated(correctItem.translation);
 
-    while (incorrectItems.length < 3 && poolCopy.length > 0) {
+    const chosenWord =
+      correctWordOptions[Math.floor(Math.random() * correctWordOptions.length)] || correctItem.word;
+    const chosenTranslation =
+      correctTranslationOptions[Math.floor(Math.random() * correctTranslationOptions.length)] ||
+      correctItem.translation;
+
+    const displayedPrompt = isFrenchPrompt ? chosenWord : chosenTranslation;
+
+    const correctAllTranslations = correctTranslationOptions.map((t) => t.toLowerCase().trim());
+    const correctAllWords = correctWordOptions.map((w) => w.toLowerCase().trim());
+
+    // 50% chance to show picture if it exists, only when prompt is in French
+    const usePicture = isFrenchPrompt && !!correctItem.picture && Math.random() < 0.5;
+
+    const chosenCorrectChoiceText = isFrenchPrompt
+      ? (usePicture ? null : chosenTranslation)
+      : chosenWord;
+
+    const incorrectItems = [];
+    const incorrectChoices = [];
+    const poolCopy = [...distractorCandidates];
+    const usedTexts = new Set(
+      chosenCorrectChoiceText ? [chosenCorrectChoiceText.toLowerCase().trim()] : []
+    );
+
+    while (incorrectChoices.length < 3 && poolCopy.length > 0) {
       const randIdx = Math.floor(Math.random() * poolCopy.length);
       const item = poolCopy.splice(randIdx, 1)[0];
-      const isDuplicate = isFrenchPrompt
-        ? item.translation.toLowerCase().trim() === correctItem.translation.toLowerCase().trim() ||
-          incorrectItems.some((x) => x.translation.toLowerCase().trim() === item.translation.toLowerCase().trim())
-        : item.word.toLowerCase().trim() === correctItem.word.toLowerCase().trim() ||
-          incorrectItems.some((x) => x.word.toLowerCase().trim() === item.word.toLowerCase().trim());
 
-      if (!isDuplicate) {
+      const options = isFrenchPrompt
+        ? parseCommaSeparated(item.translation)
+        : parseCommaSeparated(item.word);
+
+      const validOptions = options.filter((opt) => {
+        const norm = opt.toLowerCase().trim();
+        if (usedTexts.has(norm)) return false;
+        if (isFrenchPrompt) {
+          return !correctAllTranslations.includes(norm);
+        } else {
+          return !correctAllWords.includes(norm);
+        }
+      });
+
+      if (validOptions.length === 0) continue;
+
+      const chosenDistractorText = validOptions[Math.floor(Math.random() * validOptions.length)];
+      usedTexts.add(chosenDistractorText.toLowerCase().trim());
+
+      incorrectItems.push(item);
+      incorrectChoices.push({
+        id: `incorrect-${incorrectChoices.length}`,
+        text: chosenDistractorText,
+        picture: null,
+        isCorrect: false,
+      });
+    }
+
+    // Fallback if needed to reach 3 distractors
+    if (incorrectChoices.length < 3) {
+      const fallbackPool = vocab.filter((x) => !isItemEquivalent(x, correctItem));
+      while (incorrectChoices.length < 3 && fallbackPool.length > 0) {
+        const randIdx = Math.floor(Math.random() * fallbackPool.length);
+        const item = fallbackPool.splice(randIdx, 1)[0];
+
+        const options = isFrenchPrompt
+          ? parseCommaSeparated(item.translation)
+          : parseCommaSeparated(item.word);
+
+        const validOptions = options.filter((opt) => {
+          const norm = opt.toLowerCase().trim();
+          if (usedTexts.has(norm)) return false;
+          if (isFrenchPrompt) {
+            return !correctAllTranslations.includes(norm);
+          } else {
+            return !correctAllWords.includes(norm);
+          }
+        });
+
+        if (validOptions.length === 0) continue;
+
+        const chosenDistractorText = validOptions[Math.floor(Math.random() * validOptions.length)];
+        usedTexts.add(chosenDistractorText.toLowerCase().trim());
+
         incorrectItems.push(item);
+        incorrectChoices.push({
+          id: `incorrect-${incorrectChoices.length}`,
+          text: chosenDistractorText,
+          picture: null,
+          isCorrect: false,
+        });
       }
     }
 
     // Save distractors shown for the current question
     currentQuestionDistractorsRef.current = incorrectItems;
 
-    // Determine correct representation (text translation or picture if exists)
-    // 50% chance to show picture if it exists, only when prompt is in French
-    const usePicture = isFrenchPrompt && !!correctItem.picture && Math.random() < 0.5;
-
     // Map correct and incorrect items into options
     const choices = [
       {
         id: 'correct',
-        text: isFrenchPrompt ? (usePicture ? null : correctItem.translation) : correctItem.word,
+        text: chosenCorrectChoiceText,
         picture: usePicture ? correctItem.picture : null,
         isCorrect: true,
       },
-      ...incorrectItems.map((item, idx) => ({
-        id: `incorrect-${idx}`,
-        text: isFrenchPrompt ? item.translation : item.word,
-        picture: null,
-        isCorrect: false,
-      })),
+      ...incorrectChoices,
     ];
 
     // Shuffle choices
     const shuffledChoices = choices.sort(() => Math.random() - 0.5);
 
-    currentQuestionRef.current = correctItem;
-    setCurrentQuestion(correctItem);
+    const questionObj = {
+      ...correctItem,
+      sourceItem: correctItem,
+      promptText: displayedPrompt,
+      spokenFrench: chosenWord,
+      chosenWord,
+      chosenTranslation,
+    };
+
+    currentQuestionRef.current = questionObj;
+    setCurrentQuestion(questionObj);
     setOptions(shuffledChoices);
     setClickedChoices({});
     setHasFailedThisTurn(false);
     setIsTransitioning(false);
 
     if (isFrenchPrompt) {
-      speakFrench(correctItem.word);
+      speakFrench(chosenWord);
     }
   }, [vocab, speakFrench]);
 
@@ -301,8 +393,9 @@ function App() {
         setScore((s) => s + 1);
         // Correct on first try: do not present this word again for the next 10 items
         if (currentQuestionRef.current) {
-          const key = currentQuestionRef.current.word.trim().toLowerCase();
-          cooldownUntilRef.current.set(key, count + 11);
+          parseCommaSeparated(currentQuestionRef.current.word).forEach((w) => {
+            cooldownUntilRef.current.set(w.trim().toLowerCase(), count + 11);
+          });
         }
       }
       setTotalAnswered((t) => t + 1);
@@ -327,20 +420,23 @@ function App() {
         // Schedule to repeat in 3, 4, or 5 follow-on questions
         const repeatOffset = Math.floor(Math.random() * 3) + 3; // 3 to 5
         const dueAt = questionCountRef.current + repeatOffset;
-        const distractorWords = currentQuestionDistractorsRef.current.map((d) => d.word);
+        const distractorWords = currentQuestionDistractorsRef.current.flatMap((d) =>
+          parseCommaSeparated(d.word)
+        );
 
-        const existingIdx = retryQueueRef.current.findIndex(
-          (entry) => entry.item.word === currentQuestionRef.current.word
+        const currentSource = currentQuestionRef.current?.sourceItem || currentQuestionRef.current;
+        const existingIdx = retryQueueRef.current.findIndex((entry) =>
+          isItemEquivalent(entry.item, currentSource)
         );
         if (existingIdx !== -1) {
           retryQueueRef.current[existingIdx] = {
-            item: currentQuestionRef.current,
+            item: currentSource,
             dueAt,
             previousDistractorWords: distractorWords,
           };
         } else {
           retryQueueRef.current.push({
-            item: currentQuestionRef.current,
+            item: currentSource,
             dueAt,
             previousDistractorWords: distractorWords,
           });
@@ -477,13 +573,13 @@ function App() {
           </span>
           <div className="word-with-sound">
             <h2 className="flashcard-word">
-              {isFrenchPrompt ? currentQuestion.word : currentQuestion.translation}
+              {currentQuestion.promptText || (isFrenchPrompt ? currentQuestion.word : currentQuestion.translation)}
             </h2>
             {isFrenchPrompt && (
               <button
                 type="button"
                 className="card-audio-btn"
-                onClick={() => speakFrench(currentQuestion.word, true)}
+                onClick={() => speakFrench(currentQuestion.spokenFrench || currentQuestion.word, true)}
                 title="Écouter la prononciation"
                 aria-label="Écouter la prononciation"
               >
